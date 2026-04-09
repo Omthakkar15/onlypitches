@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisaPath • Expert Visa Consultancy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Playfair+Display:wght@700&amp;display=swap');
+        
+        :root {
+            --primary: #003087;
+        }
+        
+        * {
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
+        }
+        
+        .tailwind-ready {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(90deg, #003087 0%, #0055cc 100%);
+        }
+        
+        /* Timeline - EXACTLY matching your image sketch */
+        .timeline-container {
+            position: relative;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 28px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #003087, #00b8a9);
+        }
+        
+        .timeline-circle {
+            position: absolute;
+            left: 16px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: white;
+            border: 4px solid #003087;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #003087;
+            z-index: 10;
+            box-shadow: 0 10px 15px -3px rgb(0 48 135);
+        }
+        
+        .content-box {
+            background: white;
+            border: 3px solid #003087;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgb(0 48 135 / 0.15);
+        }
+        
+        .big-content-box {
+            border: 3px dashed #00b8a9;
+            background: linear-gradient(180deg, #f8fafc, #ffffff);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: -2px;
+            left: 0;
+            background-color: #00b8a9;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        .section-header {
+            font-family: 'Playfair Display', sans-serif;
+        }
+    </style>
+</head>
+<body class="tailwind-ready">
+    <!-- NAVBAR -->
+    <nav class="bg-white border-b sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-[#003087] text-white rounded-2xl flex items-center justify-center text-2xl shadow-inner">
+                    ✈️
+                </div>
+                <div>
+                    <h1 class="text-3xl font-bold tracking-tighter text-[#003087]">VisaPath</h1>
+                    <p class="text-xs text-teal-600 -mt-1 font-medium">YOUR GLOBAL JOURNEY STARTS HERE</p>
+                </div>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="#home" onclick="smoothScrollTo('home')" class="nav-link text-gray-700 hover:text-[#003087]">Home</a>
+                <a href="#services" onclick="smoothScrollTo('services')" class="nav-link text-gray-700 hover:text-[#003087]">Services</a>
+                <a href="#how-it-works" onclick="smoothScrollTo('how-it-works')" class="nav-link text-gray-700 hover:text-[#003087]">How It Works</a>
+                <a href="#reviews" onclick="smoothScrollTo('reviews')" class="nav-link text-gray-700 hover:text-[#003087]">Reviews</a>
+                <a href="#blog" onclick="smoothScrollTo('blog')" class="nav-link text-gray-700 hover:text-[#003087]">Blog &amp; News</a>
+                <a href="#contact" onclick="smoothScrollTo('contact')" class="nav-link text-gray-700 hover:text-[#003087]">Contact</a>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <button onclick="showConsultationModal()" 
+                        class="bg-[#00b8a9] hover:bg-teal-600 text-white px-6 py-3 rounded-2xl font-semibold flex items-center gap-2 shadow-lg shadow-teal-200">
+                    <i class="fa-solid fa-headset"></i>
+                    FREE CONSULTATION
+                </button>
+                
+                <!-- Mobile menu button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden text-2xl text-[#003087]">
+                    <i class="fa-solid fa-bars" id="mobile-menu-icon"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t px-6 py-6">
+            <div class="flex flex-col gap-4 text-lg font-medium">
+                <a href="#home" onclick="toggleMobileMenu()" class="py-2">Home</a>
+                <a href="#services" onclick="toggleMobileMenu()" class="py-2">Services</a>
+                <a href="#how-it-works" onclick="toggleMobileMenu()" class="py-2">How It Works</a>
+                <a href="#reviews" onclick="toggleMobileMenu()" class="py-2">Reviews</a>
+                <a href="#blog" onclick="toggleMobileMenu()" class="py-2">Blog &amp; News</a>
+                <a href="#contact" onclick="toggleMobileMenu()" class="py-2">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="hero-bg text-white py-20">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8">
+                <div class="inline-flex items-center bg-white/20 backdrop-blur-md text-white text-sm font-medium px-5 py-2 rounded-3xl">
+                    <span class="w-2 h-2 bg-teal-400 rounded-full animate-pulse mr-2"></span>
+                    Trusted by 12,450+ clients worldwide
+                </div>
+                
+                <h1 class="text-5xl md:text-6xl font-bold leading-tight section-header">
+                    Your Dream Destination.<br>
+                    <span class="text-[#00b8a9]">Our Expertise.</span>
+                </h1>
+                
+                <p class="text-xl text-white/90 max-w-md">
+                    Professional visa consultancy services for Study, Work, PR, Business &amp; Tourism visas. 
+                    98% success rate • Fast processing • Transparent fees
+                </p>
+                
+                <div class="flex flex-wrap gap-4">
+                    <button onclick="showConsultationModal()" 
+                            class="bg-white text-[#003087] hover:bg-amber-100 font-semibold px-8 py-4 rounded-3xl text-lg flex items-center gap-3">
+                        <i class="fa-solid fa-rocket"></i>
+                        START YOUR APPLICATION
+                    </button>
+                    
+                    <button onclick="smoothScrollTo('how-it-works')" 
+                            class="border-2 border-white hover:bg-white/10 font-semibold px-8 py-4 rounded-3xl text-lg flex items-center gap-3">
+                        <i class="fa-solid fa-circle-play"></i>
+                        SEE HOW IT WORKS
+                    </button>
+                </div>
+                
+                <div class="flex items-center gap-8 text-sm">
+                    <div class="flex -space-x-4">
+                        <div class="w-8 h-8 bg-white/30 backdrop-blur rounded-2xl flex items-center justify-center ring-2 ring-white text-xs">🇨🇦</div>
+                        <div class="w-8 h-8 bg-white/30 backdrop-blur rounded-2xl flex items-center justify-center ring-2 ring-white text-xs">🇦🇺</div>
+                        <div class="w-8 h-8 bg-white/30 backdrop-blur rounded-2xl flex items-center justify-center ring-2 ring-white text-xs">🇬🇧</div>
+                        <div class="w-8 h-8 bg-white/30 backdrop-blur rounded-2xl flex items-center justify-center ring-2 ring-white text-xs">🇺🇸</div>
+                    </div>
+                    <p class="text-white/80">Visas approved in <span class="font-bold">Canada • Australia • UK • USA • Schengen • Germany</span></p>
+                </div>
+            </div>
+            
+            <!-- Hero visual -->
+            <div class="relative flex justify-center">
+                <div class="bg-white/10 backdrop-blur-3xl rounded-3xl p-8 shadow-2xl border border-white/30">
+                    <div class="text-center mb-6">
+                        <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-3xl text-5xl mb-4 shadow-inner">🌍</div>
+                        <h3 class="text-2xl font-semibold">Next flight to your future</h3>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 text-center text-sm">
+                        <div class="bg-white/20 p-4 rounded-2xl">
+                            <p class="font-bold">4.9/5</p>
+                            <p class="text-xs text-white/70">Client Rating</p>
+                        </div>
+                        <div class="bg-white/20 p-4 rounded-2xl">
+                            <p class="font-bold">98%</p>
+                            <p class="text-xs text-white/70">Success Rate</p>
+                        </div>
+                        <div class="bg-white/20 p-4 rounded-2xl">
+                            <p class="font-bold">₹0</p>
+                            <p class="text-xs text-white/70">Initial Consultation</p>
+                        </div>
+                        <div class="bg-white/20 p-4 rounded-2xl">
+                            <p class="font-bold">48 hrs</p>
+                            <p class="text-xs text-white/70">Document Review</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Floating badges -->
+                <div class="absolute -top-6 -left-6 bg-white text-[#003087] text-xs font-bold px-4 py-2 rounded-3xl shadow-xl flex items-center gap-2">
+                    <i class="fa-solid fa-check-circle text-teal-500"></i>
+                    APPROVED IN 21 DAYS
+                </div>
+                <div class="absolute -bottom-6 -right-6 bg-white text-[#003087] text-xs font-bold px-4 py-2 rounded-3xl shadow-xl flex items-center gap-2">
+                    LIVE TRACKING
+                    <i class="fa-solid fa-plane"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <span class="bg-teal-100 text-teal-700 text-sm font-semibold px-6 py-2 rounded-3xl">OUR EXPERTISE</span>
+                <h2 class="text-4xl font-bold mt-4 text-[#003087] section-header">Visa Services We Offer</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-3 lg:grid-cols-5 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-white rounded-3xl p-8 shadow hover:shadow-2xl hover:-translate-y-1 group">
+                    <div class="text-5xl mb-6">🎓</div>
+                    <h3 class="text-2xl font-semibold mb-2 text-[#003087]">Study Visa</h3>
+                    <p class="text-gray-600 mb-6">Canada, Australia, UK, Germany, USA &amp; more</p>
+                    <a href="#" class="flex items-center text-teal-600 font-medium">Learn more <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1"></i></a>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="bg-white rounded-3xl p-8 shadow hover:shadow-2xl hover:-translate-y-1 group">
+                    <div class="text-5xl mb-6">💼</div>
+                    <h3 class="text-2xl font-semibold mb-2 text-[#003087]">Work Visa</h3>
+                    <p class="text-gray-600 mb-6">Skilled worker, Express Entry, Job offer visas</p>
+                    <a href="#" class="flex items-center text-teal-600 font-medium">Learn more <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1"></i></a>
+                </div>
+                
+                <!-- Card 3 -->
+                <div class="bg-white rounded-3xl p-8 shadow hover:shadow-2xl hover:-translate-y-1 group">
+                    <div class="text-5xl mb-6">🛫</div>
+                    <h3 class="text-2xl font-semibold mb-2 text-[#003087]">Tourist Visa</h3>
+                    <p class="text-gray-600 mb-6">Schengen, USA B1/B2, UK, Australia ETA</p>
+                    <a href="#" class="flex items-center text-teal-600 font-medium">Learn more <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1"></i></a>
+                </div>
+                
+                <!-- Card 4 -->
+                <div class="bg-white rounded-3xl p-8 shadow hover:shadow-2xl hover:-translate-y-1 group">
+                    <div class="text-5xl mb-6">🏠</div>
+                    <h3 class="text-2xl font-semibold mb-2 text-[#003087]">PR &amp; Immigration</h3>
+                    <p class="text-gray-600 mb-6">Permanent Residency &amp; Family Sponsorship</p>
+                    <a href="#" class="flex items-center text-teal-600 font-medium">Learn more <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1"></i></a>
+                </div>
+                
+                <!-- Card 5 -->
+                <div class="bg-white rounded-3xl p-8 shadow hover:shadow-2xl hover:-translate-y-1 group">
+                    <div class="text-5xl mb-6">🏢</div>
+                    <h3 class="text-2xl font-semibold mb-2 text-[#003087]">Business Visa</h3>
+                    <p class="text-gray-600 mb-6">Investor, Start-up &amp; Intra-company transfer</p>
+                    <a href="#" class="flex items-center text-teal-600 font-medium">Learn more <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS SECTION - VISUALLY MATCHING YOUR IMAGE -->
+    <section id="how-it-works" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="px-6 py-2 bg-[#003087] text-white rounded-3xl text-sm font-semibold">PITCH TO CLIENT</span>
+                <h2 class="text-4xl font-bold mt-4 text-[#003087] section-header">How the Website Works + Tech Stack</h2>
+                <p class="text-xl text-gray-600 mt-4 max-w-2xl mx-auto">Exactly as you asked — here is a beautiful, professional home page that you can show your client right now.</p>
+            </div>
+            
+            <!-- TIMELINE - DIRECTLY INSPIRED BY YOUR UPLOADED IMAGE -->
+            <div class="max-w-5xl mx-auto timeline-container">
+                
+                <!-- Top box (exactly like your sketch) -->
+                <div class="flex items-start gap-8 mb-16">
+                    <div class="relative flex-shrink-0">
+                        <div class="timeline-circle">1</div>
+                    </div>
+                    <div class="content-box flex-1 p-8">
+                        <h3 class="font-bold text-xl text-[#003087] mb-2">Active Demo – How It Works + Which Tech I Use</h3>
+                        <p class="text-gray-700">This is the exact section you requested in your image sketch. The entire website is <strong>100% frontend only</strong> (HTML + CSS + JavaScript) so you can deliver it quickly and cost-effectively.</p>
+                    </div>
+                </div>
+                
+                <!-- Middle box (exactly like your sketch) -->
+                <div class="flex items-start gap-8 mb-16">
+                    <div class="relative flex-shrink-0">
+                        <div class="timeline-circle">2</div>
+                    </div>
+                    <div class="content-box flex-1 p-8">
+                        <h3 class="font-bold text-xl text-[#003087] mb-2">Website Flow &amp; User Journey</h3>
+                        <p class="text-gray-700 mb-4">Clean, simple, human-friendly flow designed for your clients:</p>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                            <div class="flex items-center gap-3 bg-slate-50 rounded-2xl p-4"><i class="fa-solid fa-house text-teal-500"></i> <span>Home → Hero + Services</span></div>
+                            <div class="flex items-center gap-3 bg-slate-50 rounded-2xl p-4"><i class="fa-solid fa-file-lines text-teal-500"></i> <span>Free Consultation Form</span></div>
+                            <div class="flex items-center gap-3 bg-slate-50 rounded-2xl p-4"><i class="fa-solid fa-blog text-teal-500"></i> <span>Blog / News / Reviews</span></div>
+                            <div class="flex items-center gap-3 bg-slate-50 rounded-2xl p-4"><i class="fa-solid fa-phone text-teal-500"></i> <span>Contact + Live Chat (future)</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Big bottom box (exactly like your sketch with dashed border) -->
+                <div class="flex items-start gap-8">
+                    <div class="relative flex-shrink-0">
+                        <div class="timeline-circle">3</div>
+                    </div>
+                    <div class="big-content-box flex-1 p-10 rounded-3xl relative">
+                        <div class="absolute -top-4 right-8 bg-white shadow text-teal-600 px-5 py-1 rounded-3xl text-sm font-bold flex items-center">
+                            <i class="fa-solid fa-circle-question mr-2"></i> FULL DETAILS FOR CLIENT
+                        </div>
+                        
+                        <h3 class="font-bold text-2xl text-[#003087] mb-8">Full Website Structure You Will Get</h3>
+                        
+                        <div class="grid md:grid-cols-3 gap-8">
+                            <div>
+                                <h4 class="font-semibold text-teal-700 mb-3">✅ Pages Included</h4>
+                                <ul class="space-y-2 text-gray-600">
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-teal-500"></i> Home Page (this demo)</li>
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-teal-500"></i> Services Page</li>
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-teal-500"></i> Contact Page</li>
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-teal-500"></i> Blog Page</li>
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-teal-500"></i> News Page</li>
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-teal-500"></i> Reviews Page</li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-semibold text-teal-700 mb-3">🚀 Technologies I Will Use</h4>
+                                <div class="flex flex-wrap gap-3">
+                                    <div class="bg-white border border-slate-300 rounded-2xl px-5 py-2 text-xs font-medium flex items-center gap-2">HTML5</div>
+                                    <div class="bg-white border border-slate-300 rounded-2xl px-5 py-2 text-xs font-medium flex items-center gap-2">Tailwind CSS</div>
+                                    <div class="bg-white border border-slate-300 rounded-2xl px-5 py-2 text-xs font-medium flex items-center gap-2">Vanilla JavaScript</div>
+                                    <div class="bg-white border border-slate-300 rounded-2xl px-5 py-2 text-xs font-medium flex items-center gap-2">Fully Responsive</div>
+                                    <div class="bg-white border border-slate-300 rounded-2xl px-5 py-2 text-xs font-medium flex items-center gap-2">Smooth Animations</div>
+                                    <div class="bg-white border border-slate-300 rounded-2xl px-5 py-2 text-xs font-medium flex items-center gap-2">Mobile-First</div>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-6">No backend needed for pitch. I can add Node.js / Firebase later if client wants dynamic features.</p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-semibold text-teal-700 mb-3">🔄 User Flow</h4>
+                                <ol class="text-sm space-y-4">
+                                    <li class="flex gap-3"><span class="font-mono bg-teal-100 text-teal-700 rounded px-3">01</span> Lands on beautiful hero</li>
+                                    <li class="flex gap-3"><span class="font-mono bg-teal-100 text-teal-700 rounded px-3">02</span> Browses services &amp; testimonials</li>
+                                    <li class="flex gap-3"><span class="font-mono bg-teal-100 text-teal-700 rounded px-3">03</span> Fills free consultation form</li>
+                                    <li class="flex gap-3"><span class="font-mono bg-teal-100 text-teal-700 rounded px-3">04</span> Reads blog &amp; success stories</li>
+                                    <li class="flex gap-3"><span class="font-mono bg-teal-100 text-teal-700 rounded px-3">05</span> Contacts you instantly</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="text-center text-teal-600 font-medium mt-12">This is fully functional HTML/CSS/JS. Just copy the entire code above into <strong>index.html</strong> and open it in browser. Your client will be impressed instantly.</p>
+        </div>
+    </section>
+
+    <!-- REVIEWS / TESTIMONIALS -->
+    <section id="reviews" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-[#003087] section-header">Real Client Reviews</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-3xl shadow">
+                    <div class="flex gap-1 text-amber-400 mb-6">★★★★★</div>
+                    <p class="italic text-gray-600">"Got my Canada Study Visa in just 28 days! The website is so easy to use and the team was very helpful."</p>
+                    <div class="mt-8 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-purple-200 rounded-2xl"></div>
+                        <div>
+                            <p class="font-semibold">Priya Sharma</p>
+                            <p class="text-xs text-gray-500">Ahmedabad • Canada Student Visa</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-8 rounded-3xl shadow">
+                    <div class="flex gap-1 text-amber-400 mb-6">★★★★☆</div>
+                    <p class="italic text-gray-600">"The tracking feature on the website kept me updated at every step. Best consultancy experience ever!"</p>
+                    <div class="mt-8 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-blue-200 rounded-2xl"></div>
+                        <div>
+                            <p class="font-semibold">Rahul Patel</p>
+                            <p class="text-xs text-gray-500">Surat • Australia PR</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-8 rounded-3xl shadow">
+                    <div class="flex gap-1 text-amber-400 mb-6">★★★★★</div>
+                    <p class="italic text-gray-600">"Super clean website and instant response. Got my UK work visa approved smoothly."</p>
+                    <div class="mt-8 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-emerald-200 rounded-2xl"></div>
+                        <div>
+                            <p class="font-semibold">Meera Joshi</p>
+                            <p class="text-xs text-gray-500">Vadodara • UK Skilled Worker Visa</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOG & NEWS TEASER -->
+    <section id="blog" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-end mb-10">
+                <div>
+                    <span class="text-teal-600 font-semibold">LATEST INSIGHTS</span>
+                    <h2 class="text-4xl font-bold text-[#003087]">Blog &amp; News</h2>
+                </div>
+                <a href="#" class="text-teal-600 flex items-center gap-2 font-medium">View all articles <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="border rounded-3xl overflow-hidden">
+                    <div class="h-48 bg-gradient-to-br from-blue-600 to-teal-500 flex items-center justify-center text-6xl">🇨🇦</div>
+                    <div class="p-6">
+                        <p class="text-xs uppercase text-teal-600">April 8, 2026</p>
+                        <h4 class="font-semibold text-lg">New Express Entry Draw – 3500 ITAs Issued</h4>
+                    </div>
+                </div>
+                <div class="border rounded-3xl overflow-hidden">
+                    <div class="h-48 bg-gradient-to-br from-red-500 to-amber-400 flex items-center justify-center text-6xl">🇦🇺</div>
+                    <div class="p-6">
+                        <p class="text-xs uppercase text-teal-600">April 7, 2026</p>
+                        <h4 class="font-semibold text-lg">Australia 2026-27 Migration Program Update</h4>
+                    </div>
+                </div>
+                <div class="border rounded-3xl overflow-hidden">
+                    <div class="h-48 bg-gradient-to-br from-purple-600 to-indigo-500 flex items-center justify-center text-6xl">🇩🇪</div>
+                    <div class="p-6">
+                        <p class="text-xs uppercase text-teal-600">April 6, 2026</p>
+                        <h4 class="font-semibold text-lg">Germany Opportunity Card – New Rules Explained</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA + CONTACT -->
+    <section id="contact" class="py-20 bg-[#003087] text-white">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold mb-6">Ready to start your visa journey?</h2>
+            <p class="text-xl mb-10">Get a free consultation in under 2 minutes. No spam, ever.</p>
+            
+            <div class="max-w-md mx-auto">
+                <div onclick="showConsultationModal()" class="cursor-pointer bg-white text-[#003087] py-6 px-10 rounded-3xl font-semibold text-2xl flex items-center justify-center gap-4 hover:scale-105">
+                    <span>BOOK YOUR FREE CONSULTATION</span>
+                    <i class="fa-solid fa-arrow-right text-3xl"></i>
+                </div>
+            </div>
+            
+            <p class="text-white/70 mt-10">📍 Ahmedabad, Gujarat • 📞 +91 98765 43210 • 📧 hello@visapath.in</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-white/80 py-12">
+        <div class="max-w-7xl mx-auto px-6 text-center text-sm">
+            <p>© 2026 VisaPath Consultancy • Frontend Only Demo (HTML, CSS, JS + Tailwind)</p>
+            <p class="mt-2">Built exactly as per your requirement for client pitch. Fully responsive, beautiful &amp; professional.</p>
+            <p class="mt-6 text-teal-400 text-xs">Just send this single HTML file to your client — they can open it instantly and see the live website!</p>
+        </div>
+    </footer>
+
+    <!-- CONSULTATION MODAL -->
+    <div id="consultation-modal" onclick="if(event.target === this) hideConsultationModal()" 
+         class="hidden fixed inset-0 bg-black/70 z-[9999] flex items-center justify-center">
+        <div onclick="event.stopImmediatePropagation()" 
+             class="bg-white text-slate-900 rounded-3xl max-w-lg w-full mx-4 p-8">
+            <h3 class="text-3xl font-bold mb-6 text-center">Free Visa Consultation</h3>
+            
+            <form id="demo-form" onsubmit="handleFormSubmit(event)" class="space-y-6">
+                <input type="text" id="name" placeholder="Full Name" 
+                       class="w-full border border-slate-300 rounded-2xl px-6 py-4 outline-none focus:border-teal-500">
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="tel" id="phone" placeholder="Phone Number" 
+                           class="w-full border border-slate-300 rounded-2xl px-6 py-4 outline-none focus:border-teal-500">
+                    <input type="email" id="email" placeholder="Email" 
+                           class="w-full border border-slate-300 rounded-2xl px-6 py-4 outline-none focus:border-teal-500">
+                </div>
+                
+                <select id="visa-type" class="w-full border border-slate-300 rounded-2xl px-6 py-4 outline-none focus:border-teal-500">
+                    <option value="">Select Visa Type</option>
+                    <option>Study Visa</option>
+                    <option>Work Visa</option>
+                    <option>Tourist Visa</option>
+                    <option>PR / Immigration</option>
+                    <option>Business Visa</option>
+                </select>
+                
+                <button type="submit" 
+                        class="w-full bg-[#003087] hover:bg-[#002266] text-white py-5 text-lg rounded-3xl font-semibold">
+                    SUBMIT &amp; GET CALLBACK IN 2 MINUTES
+                </button>
+            </form>
+            
+            <p class="text-center text-xs text-gray-500 mt-8">Demo form works with JavaScript • Shows instant success message</p>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind script initialization
+        function initializeTailwind() {
+            return {
+                config(userConfig = {}) {
+                    return {
+                        content: [],
+                        theme: {
+                            extend: {},
+                        },
+                        plugins: [],
+                        ...userConfig,
+                    }
+                },
+                theme: {
+                    extend: {
+                        colors: {
+                            primary: '#003087',
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Run Tailwind
+        document.addEventListener('DOMContentLoaded', () => {
+            return initializeTailwind().config()
+        })
+        
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu')
+            const icon = document.getElementById('mobile-menu-icon')
+            menu.classList.toggle('hidden')
+            if (menu.classList.contains('hidden')) {
+                icon.classList.replace('fa-xmark', 'fa-bars')
+            } else {
+                icon.classList.replace('fa-bars', 'fa-xmark')
+            }
+        }
+        
+        // Smooth scroll
+        function smoothScrollTo(section) {
+            const element = document.getElementById(section)
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' })
+                // Close mobile menu if open
+                const mobileMenu = document.getElementById('mobile-menu')
+                if (!mobileMenu.classList.contains('hidden')) toggleMobileMenu()
+            }
+        }
+        
+        // Modal functions
+        function showConsultationModal() {
+            document.getElementById('consultation-modal').classList.remove('hidden')
+            document.getElementById('consultation-modal').classList.add('flex')
+        }
+        
+        function hideConsultationModal() {
+            const modal = document.getElementById('consultation-modal')
+            modal.classList.add('hidden')
+            modal.classList.remove('flex')
+        }
+        
+        // Demo form submission
+        function handleFormSubmit(e) {
+            e.preventDefault()
+            
+            // Fake loading
+            const btn = e.target.querySelector('button')
+            const originalText = btn.innerHTML
+            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin mr-2"></i> SUBMITTING...`
+            btn.disabled = true
+            
+            setTimeout(() => {
+                btn.innerHTML = `✅ THANK YOU! Our team will call you in 2 minutes.`
+                btn.classList.add('!bg-teal-500')
+                
+                // Reset form
+                setTimeout(() => {
+                    hideConsultationModal()
+                    // Reset button
+                    btn.innerHTML = originalText
+                    btn.classList.remove('!bg-teal-500')
+                    btn.disabled = false
+                    e.target.reset()
+                    
+                    // Thank you toast
+                    const toast = document.createElement('div')
+                    toast.style.cssText = 'position:fixed; bottom:20px; right:20px; background:#00b8a9; color:white; padding:16px 24px; border-radius:9999px; box-shadow:0 10px 15px -3px rgb(0 48 135); z-index:99999;'
+                    toast.innerHTML = '🎉 Form submitted successfully! (Demo only)'
+                    document.body.appendChild(toast)
+                    
+                    setTimeout(() => toast.remove(), 4000)
+                }, 1800)
+            }, 1500)
+        }
+        
+        console.log('%c✅ VisaPath Home Page ready for your client pitch!', 'background:#003087; color:white; padding:4px 8px; border-radius:4px; font-weight:bold')
+        console.log('Copy this entire file as index.html and open it in browser.')
+    </script>
+</body>
+</html>
