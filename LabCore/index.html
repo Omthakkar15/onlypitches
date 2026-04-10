@@ -1,0 +1,923 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --primary: #0A2540;
+    --accent: #00C49A;
+    --accent2: #0091FF;
+    --light: #F4F7FB;
+    --white: #FFFFFF;
+    --text: #1A2B3C;
+    --muted: #6B7C93;
+    --border: rgba(0,0,0,0.08);
+    --card-bg: #FFFFFF;
+    --nav-bg: rgba(10,37,64,0.97);
+  }
+
+  body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--white); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 68px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-icon {
+    width: 36px; height: 36px; background: var(--accent);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  }
+  .logo-icon svg { width: 20px; height: 20px; fill: white; }
+  .logo-text { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: white; letter-spacing: 0.5px; }
+  .logo-sub { font-size: 10px; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; display: block; margin-top: -4px; }
+
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 14px; font-weight: 400; transition: color 0.2s; cursor: pointer; }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-btn {
+    background: var(--accent); color: white; border: none; padding: 10px 22px;
+    border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; transition: opacity 0.2s;
+  }
+  .nav-btn:hover { opacity: 0.85; }
+
+  /* SECTIONS */
+  section { padding: 100px 5%; }
+  .section-tag {
+    display: inline-block; background: rgba(0,196,154,0.1); color: var(--accent);
+    font-size: 12px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 20px; margin-bottom: 16px; border: 1px solid rgba(0,196,154,0.2);
+  }
+  h1, h2, h3, h4 { font-family: 'Syne', sans-serif; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; background: var(--primary);
+    display: flex; align-items: center; padding: 140px 5% 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse 60% 70% at 80% 50%, rgba(0,145,255,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 50% at 20% 80%, rgba(0,196,154,0.08) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 640px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,196,154,0.1); border: 1px solid rgba(0,196,154,0.3);
+    padding: 8px 16px; border-radius: 30px; margin-bottom: 32px;
+  }
+  .badge-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(1.2)} }
+  .badge-text { color: var(--accent); font-size: 13px; font-weight: 500; }
+
+  .hero h1 { font-size: clamp(38px,5vw,64px); font-weight: 800; color: white; line-height: 1.1; margin-bottom: 24px; }
+  .hero h1 span { color: var(--accent); }
+  .hero p { color: rgba(255,255,255,0.65); font-size: 17px; line-height: 1.7; margin-bottom: 40px; max-width: 520px; }
+  .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary { background: var(--accent); color: white; border: none; padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,196,154,0.35); }
+  .btn-outline { background: transparent; color: white; border: 1.5px solid rgba(255,255,255,0.3); padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+  .btn-outline:hover { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.05); }
+
+  .hero-stats { display: flex; gap: 40px; margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); flex-wrap: wrap; }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; color: white; }
+  .stat-num span { color: var(--accent); }
+  .stat-label { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+
+  .hero-visual {
+    position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
+    width: 400px; height: 400px; pointer-events: none;
+  }
+  .hero-circle {
+    width: 360px; height: 360px; border-radius: 50%;
+    border: 1.5px solid rgba(0,196,154,0.2);
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    animation: rotate 20s linear infinite;
+  }
+  .hero-circle::before {
+    content: ''; width: 12px; height: 12px; background: var(--accent);
+    border-radius: 50%; position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
+    box-shadow: 0 0 20px rgba(0,196,154,0.8);
+  }
+  .hero-circle2 {
+    width: 260px; height: 260px; border-radius: 50%;
+    border: 1.5px solid rgba(0,145,255,0.2);
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    animation: rotate 12s linear infinite reverse;
+  }
+  .hero-circle2::before {
+    content: ''; width: 10px; height: 10px; background: var(--accent2);
+    border-radius: 50%; position: absolute; bottom: -5px; right: 20%;
+    box-shadow: 0 0 16px rgba(0,145,255,0.8);
+  }
+  .hero-center {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 120px; height: 120px; background: rgba(0,196,154,0.08);
+    border-radius: 50%; border: 1px solid rgba(0,196,154,0.3);
+    display: flex; align-items: center; justify-content: center;
+  }
+  @keyframes rotate { from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(360deg)} }
+
+  /* SERVICES */
+  .services { background: var(--light); }
+  .services h2 { font-size: clamp(28px,4vw,44px); font-weight: 700; color: var(--primary); margin-bottom: 12px; }
+  .services > p { color: var(--muted); font-size: 16px; max-width: 520px; margin-bottom: 56px; line-height: 1.6; }
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .service-card {
+    background: var(--card-bg); border-radius: 16px; padding: 32px 28px;
+    border: 1px solid var(--border); transition: all 0.25s; cursor: default;
+    position: relative; overflow: hidden;
+  }
+  .service-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--accent); transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .service-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.08); }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: rgba(0,196,154,0.1); display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px; font-size: 24px;
+  }
+  .service-card h3 { font-size: 18px; font-weight: 600; color: var(--primary); margin-bottom: 10px; }
+  .service-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+  .service-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); font-size: 13px; font-weight: 500; margin-top: 16px; cursor: pointer; }
+
+  /* ABOUT */
+  .about { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .about-visual {
+    position: relative; height: 480px;
+    background: linear-gradient(135deg, rgba(0,196,154,0.08) 0%, rgba(0,145,255,0.05) 100%);
+    border-radius: 24px; border: 1px solid var(--border); overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .lab-illustration { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding: 32px; }
+  .metric-row { display: flex; gap: 16px; width: 100%; }
+  .metric-card {
+    flex: 1; background: white; border-radius: 12px; padding: 20px;
+    border: 1px solid var(--border); text-align: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .metric-val { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: var(--primary); }
+  .metric-val.green { color: var(--accent); }
+  .metric-val.blue { color: var(--accent2); }
+  .metric-lbl { font-size: 11px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+  .progress-card { background: white; border-radius: 12px; padding: 20px; border: 1px solid var(--border); width: 100%; box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+  .prog-row { margin-bottom: 14px; }
+  .prog-label { display: flex; justify-content: space-between; font-size: 13px; color: var(--text); margin-bottom: 6px; }
+  .prog-bar { height: 6px; background: var(--light); border-radius: 3px; overflow: hidden; }
+  .prog-fill { height: 100%; border-radius: 3px; background: var(--accent); transition: width 1s ease; }
+  .prog-fill.blue { background: var(--accent2); }
+
+  .about-content .section-tag { margin-bottom: 16px; }
+  .about-content h2 { font-size: clamp(28px,4vw,42px); font-weight: 700; color: var(--primary); line-height: 1.2; margin-bottom: 20px; }
+  .about-content p { color: var(--muted); font-size: 16px; line-height: 1.7; margin-bottom: 16px; }
+  .feature-list { list-style: none; margin-top: 24px; display: flex; flex-direction: column; gap: 12px; }
+  .feature-list li { display: flex; align-items: center; gap: 12px; font-size: 15px; color: var(--text); }
+  .check { width: 22px; height: 22px; background: rgba(0,196,154,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .check svg { width: 12px; height: 12px; stroke: var(--accent); fill: none; stroke-width: 2.5; }
+
+  /* TESTS */
+  .tests { background: var(--primary); }
+  .tests h2 { font-size: clamp(28px,4vw,44px); font-weight: 700; color: white; margin-bottom: 12px; }
+  .tests > p { color: rgba(255,255,255,0.6); font-size: 16px; max-width: 520px; margin-bottom: 56px; }
+  .tests-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+  .test-item {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px; padding: 24px 20px; transition: all 0.2s; cursor: default;
+  }
+  .test-item:hover { background: rgba(0,196,154,0.1); border-color: rgba(0,196,154,0.4); }
+  .test-item h4 { font-size: 15px; font-weight: 600; color: white; margin-bottom: 6px; font-family: 'Syne', sans-serif; }
+  .test-item p { font-size: 12px; color: rgba(255,255,255,0.5); }
+  .test-badge { display: inline-block; font-size: 10px; color: var(--accent); background: rgba(0,196,154,0.15); border: 1px solid rgba(0,196,154,0.3); padding: 3px 10px; border-radius: 20px; margin-top: 12px; }
+
+  /* BOOKING */
+  .booking { background: var(--light); }
+  .booking-inner {
+    background: var(--primary); border-radius: 24px; padding: 64px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
+    position: relative; overflow: hidden;
+  }
+  .booking-inner::before {
+    content: ''; position: absolute; top: -60px; right: -60px;
+    width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,196,154,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .booking-info h2 { font-size: clamp(26px,3.5vw,40px); font-weight: 700; color: white; margin-bottom: 16px; }
+  .booking-info p { color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 32px; }
+  .contact-items { display: flex; flex-direction: column; gap: 16px; }
+  .contact-item { display: flex; align-items: center; gap: 14px; }
+  .contact-icon { width: 40px; height: 40px; background: rgba(0,196,154,0.1); border: 1px solid rgba(0,196,154,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .contact-item p { color: white; font-size: 14px; font-weight: 400; }
+  .contact-item span { color: rgba(255,255,255,0.5); font-size: 12px; display: block; }
+
+  .booking-form { position: relative; z-index: 2; }
+  .form-group { margin-bottom: 16px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  label { font-size: 13px; color: rgba(255,255,255,0.7); display: block; margin-bottom: 8px; }
+  input, select, textarea {
+    width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px; padding: 12px 16px; color: white; font-size: 14px;
+    font-family: 'DM Sans', sans-serif; outline: none; transition: border-color 0.2s;
+    appearance: none;
+  }
+  input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.3); }
+  input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+  select option { background: var(--primary); color: white; }
+  textarea { resize: none; height: 100px; }
+  .submit-btn {
+    width: 100%; background: var(--accent); color: white; border: none;
+    padding: 14px; border-radius: 10px; font-size: 15px; font-weight: 500;
+    cursor: pointer; font-family: 'Syne', sans-serif; margin-top: 8px;
+    transition: all 0.2s; letter-spacing: 0.3px;
+  }
+  .submit-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  /* FOOTER */
+  footer { background: #060F1A; padding: 60px 5% 32px; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+  .footer-brand p { color: rgba(255,255,255,0.45); font-size: 14px; line-height: 1.7; margin-top: 16px; max-width: 280px; }
+  .footer-col h4 { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 600; color: white; margin-bottom: 16px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col ul li a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 14px; transition: color 0.2s; cursor: pointer; }
+  .footer-col ul li a:hover { color: var(--accent); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap; }
+  .footer-bottom p { color: rgba(255,255,255,0.35); font-size: 13px; }
+  .accreditations { display: flex; gap: 12px; }
+  .accred-badge { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 20px; font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 1px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .hero-visual { display: none; }
+    .about { grid-template-columns: 1fr; gap: 40px; }
+    .booking-inner { grid-template-columns: 1fr; gap: 40px; padding: 36px 28px; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+  }
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    section { padding: 64px 5%; }
+    .hero { padding: 120px 5% 64px; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    .hero-stats { gap: 24px; }
+    .booking-inner { padding: 28px 20px; }
+  }
+
+  /* ===== HOW IT WORKS — dark navy timeline (matches VisaPath style) ===== */
+  .howitworks { background: var(--primary); padding: 100px 5%; }
+  .hiw-header { margin-bottom: 72px; }
+  .hiw-header h2 { font-size: clamp(36px,5vw,60px); font-weight: 800; color: white; line-height: 1.1; margin-bottom: 16px; }
+  .hiw-header p { color: rgba(255,255,255,0.5); font-size: 16px; max-width: 480px; line-height: 1.7; }
+  .section-tag-gold { display: inline-block; background: rgba(201,168,76,0.12); color: #C9A84C; font-size: 11px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 16px; border: 1px solid rgba(201,168,76,0.25); }
+
+  .timeline-wrap { display: flex; flex-direction: column; }
+  .timeline-row { display: flex; gap: 0; }
+  .tl-left { display: flex; flex-direction: column; align-items: center; margin-right: 36px; flex-shrink: 0; width: 56px; }
+  .tl-num { width: 54px; height: 54px; border-radius: 50%; border: 1.5px solid #C9A84C; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: #C9A84C; background: transparent; flex-shrink: 0; z-index: 1; }
+  .tl-line { width: 1.5px; background: rgba(201,168,76,0.22); flex: 1; min-height: 48px; margin: 6px 0; }
+  .tl-right { flex: 1; padding-bottom: 48px; }
+  .tl-card { background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.09); border-radius: 16px; padding: 32px 36px; transition: border-color 0.2s; }
+  .tl-card:hover { border-color: rgba(201,168,76,0.3); }
+  .tl-category { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: #C9A84C; font-weight: 500; margin-bottom: 10px; }
+  .tl-card h3 { font-size: clamp(18px,2.5vw,24px); font-weight: 700; color: white; margin-bottom: 12px; }
+  .tl-card p { color: rgba(255,255,255,0.52); font-size: 14px; line-height: 1.75; margin-bottom: 20px; }
+  .tl-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tl-tag { background: transparent; border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.65); font-size: 12px; padding: 5px 14px; border-radius: 20px; }
+
+  /* ===== TECH STACK — cream background (matches VisaPath) ===== */
+  .techstack { background: #F4F0E8; padding: 100px 5%; }
+  .ts-header h2 { font-size: clamp(28px,4vw,48px); font-weight: 800; color: var(--primary); margin-bottom: 14px; }
+  .ts-header p { color: var(--muted); font-size: 16px; max-width: 500px; line-height: 1.7; margin-bottom: 56px; }
+  .ts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 20px; }
+  .ts-card { background: var(--white); border-radius: 16px; padding: 36px 28px; border: 1px solid rgba(0,0,0,0.06); text-align: center; transition: all 0.2s; cursor: default; }
+  .ts-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+  .ts-icon { font-size: 38px; margin-bottom: 16px; display: block; line-height: 1; }
+  .ts-card h4 { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+  .ts-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .ts-pill { display: inline-block; margin-top: 14px; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); background: rgba(0,196,154,0.1); border: 1px solid rgba(0,196,154,0.2); padding: 4px 12px; border-radius: 20px; }
+
+  /* ===== EVERYTHING INCLUDED — white background (matches VisaPath) ===== */
+  .everything { background: var(--white); padding: 100px 5%; }
+  .ev-header h2 { font-size: clamp(28px,4vw,48px); font-weight: 800; color: var(--primary); margin-bottom: 14px; }
+  .ev-header p { color: var(--muted); font-size: 16px; max-width: 500px; line-height: 1.7; margin-bottom: 56px; }
+  .ev-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+  .ev-card { background: #F4F0E8; border-radius: 14px; padding: 28px 20px; text-align: center; transition: all 0.2s; cursor: default; }
+  .ev-card:hover { background: #EDE8DC; transform: translateY(-2px); }
+  .ev-icon { font-size: 30px; margin-bottom: 14px; display: block; line-height: 1; }
+  .ev-card h4 { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+  .ev-card p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  @media (max-width: 900px) {
+    .ev-grid { grid-template-columns: repeat(3, 1fr); }
+    .tl-card { padding: 24px 20px; }
+    .tl-left { margin-right: 20px; }
+  }
+  @media (max-width: 600px) {
+    .howitworks { padding: 64px 5%; }
+    .techstack { padding: 64px 5%; }
+    .everything { padding: 64px 5%; }
+    .ts-grid { grid-template-columns: 1fr 1fr; }
+    .ev-grid { grid-template-columns: 1fr 1fr; }
+    .tl-num { width: 42px; height: 42px; font-size: 15px; }
+  }
+  @media (max-width: 420px) {
+    .ts-grid { grid-template-columns: 1fr; }
+    .ev-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">LabCore Diagnostics — Professional Laboratory Website</h2>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M9 3h6l1 8H8L9 3zm-1 8l-4 10h16L16 11H8zm4-6a1 1 0 100 2 1 1 0 000-2z"/></svg>
+    </div>
+    <div>
+      <div class="logo-text">LabCore</div>
+      <span class="logo-sub">Diagnostics</span>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a>Home</a></li>
+    <li><a>Services</a></li>
+    <li><a>Tests</a></li>
+    <li><a>About</a></li>
+    <li><a>Reports</a></li>
+    <li><a>Contact</a></li>
+  </ul>
+  <button class="nav-btn">Book a Test</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      <span class="badge-text">NABL Accredited Laboratory</span>
+    </div>
+    <h1>Precision <span>Diagnostics</span> You Can Trust</h1>
+    <p>Advanced medical laboratory services with state-of-the-art equipment. Fast, accurate results delivered digitally — from routine blood tests to complex molecular diagnostics.</p>
+    <div class="hero-btns">
+      <button class="btn-primary">Book a Test →</button>
+      <button class="btn-outline">View Test Menu</button>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">500<span>+</span></div>
+        <div class="stat-label">Tests Available</div>
+      </div>
+      <div>
+        <div class="stat-num">24<span>hr</span></div>
+        <div class="stat-label">Report Turnaround</div>
+      </div>
+      <div>
+        <div class="stat-num">98<span>%</span></div>
+        <div class="stat-label">Accuracy Rate</div>
+      </div>
+      <div>
+        <div class="stat-num">50<span>K+</span></div>
+        <div class="stat-label">Patients Served</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-circle"></div>
+    <div class="hero-circle2"></div>
+    <div class="hero-center">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#00C49A" stroke-width="1.5" stroke-linecap="round">
+        <path d="M9 3h6l1 8H8L9 3z"/>
+        <path d="M7 11l-4 10h18l-4-10"/>
+        <circle cx="12" cy="7" r="1" fill="#00C49A" stroke="none"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services">
+  <div class="section-tag">Our Services</div>
+  <h2>Comprehensive Lab Solutions</h2>
+  <p>From routine checkups to specialized testing, we provide a full spectrum of diagnostic services.</p>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🩸</div>
+      <h3>Haematology</h3>
+      <p>Complete blood count, blood group typing, ESR, and all haematological investigations with precision automated analysers.</p>
+      <div class="service-link">Learn more <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🧬</div>
+      <h3>Molecular Diagnostics</h3>
+      <p>PCR testing, genetic analysis, and molecular profiling for infectious diseases, oncology markers, and hereditary conditions.</p>
+      <div class="service-link">Learn more <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔬</div>
+      <h3>Histopathology</h3>
+      <p>Tissue biopsy analysis, cytology, FNAC, and immunohistochemistry for cancer diagnosis and pathological grading.</p>
+      <div class="service-link">Learn more <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🧪</div>
+      <h3>Clinical Biochemistry</h3>
+      <p>Liver function, kidney function, lipid profile, thyroid panel, hormone assays, and metabolic disorder screening.</p>
+      <div class="service-link">Learn more <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🦠</div>
+      <h3>Microbiology</h3>
+      <p>Culture & sensitivity, urine culture, blood culture, throat swab, and antibiotic susceptibility profiling.</p>
+      <div class="service-link">Learn more <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏠</div>
+      <h3>Home Collection</h3>
+      <p>Doorstep sample collection by trained phlebotomists with real-time tracking and digital report delivery.</p>
+      <div class="service-link">Book now <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section style="padding: 100px 5%;">
+  <div class="about">
+    <div class="about-visual">
+      <div class="lab-illustration">
+        <div class="metric-row">
+          <div class="metric-card">
+            <div class="metric-val green">98.7%</div>
+            <div class="metric-lbl">Accuracy</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val blue">4.2hr</div>
+            <div class="metric-lbl">Avg Turnaround</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">500+</div>
+            <div class="metric-lbl">Test Types</div>
+          </div>
+        </div>
+        <div class="progress-card">
+          <div style="font-size:13px;font-weight:500;color:var(--primary);margin-bottom:16px;font-family:'Syne',sans-serif;">Quality Metrics</div>
+          <div class="prog-row">
+            <div class="prog-label"><span>Sample Quality</span><span>96%</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:96%"></div></div>
+          </div>
+          <div class="prog-row">
+            <div class="prog-label"><span>On-Time Reports</span><span>99%</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:99%"></div></div>
+          </div>
+          <div class="prog-row">
+            <div class="prog-label"><span>Patient Satisfaction</span><span>94%</span></div>
+            <div class="prog-bar"><div class="prog-fill blue" style="width:94%"></div></div>
+          </div>
+          <div class="prog-row" style="margin-bottom:0">
+            <div class="prog-label"><span>Repeat Accuracy</span><span>98%</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width:98%"></div></div>
+          </div>
+        </div>
+        <div class="metric-row">
+          <div class="metric-card" style="text-align:left;padding:16px 18px;">
+            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Certifications</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <span style="background:rgba(0,196,154,0.1);color:var(--accent);font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,196,154,0.2);">NABL</span>
+              <span style="background:rgba(0,145,255,0.1);color:var(--accent2);font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,145,255,0.2);">ISO 15189</span>
+              <span style="background:rgba(0,196,154,0.1);color:var(--accent);font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,196,154,0.2);">CAP</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="about-content">
+      <div class="section-tag">About LabCore</div>
+      <h2>25 Years of Diagnostic Excellence</h2>
+      <p>LabCore Diagnostics has been a trusted partner in healthcare since 1999, delivering accurate and timely diagnostic results that empower physicians to make informed clinical decisions.</p>
+      <p>Our NABL-accredited facility is equipped with the latest analyzers and staffed by qualified pathologists, microbiologists, and lab technicians committed to the highest standards of quality.</p>
+      <ul class="feature-list">
+        <li>
+          <div class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+          NABL & ISO 15189 Accredited Facility
+        </li>
+        <li>
+          <div class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+          Digital Reports via App, Email & WhatsApp
+        </li>
+        <li>
+          <div class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+          24/7 Emergency & STAT Testing Available
+        </li>
+        <li>
+          <div class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+          Trained Phlebotomists for Home Collection
+        </li>
+        <li>
+          <div class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+          Integrated with Hospital Information Systems
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TEST MENU -->
+<section class="tests">
+  <div class="section-tag" style="background:rgba(0,196,154,0.1);border-color:rgba(0,196,154,0.25)">Test Menu</div>
+  <h2>Popular Diagnostic Tests</h2>
+  <p>Browse our most requested tests. All packages include a free digital report and expert consultation.</p>
+  <div class="tests-grid">
+    <div class="test-item">
+      <h4>CBC / Complete Blood Count</h4>
+      <p>Haematology • 4–6 hrs</p>
+      <div class="test-badge">Most Popular</div>
+    </div>
+    <div class="test-item">
+      <h4>Lipid Profile Panel</h4>
+      <p>Biochemistry • 8 hrs</p>
+      <div class="test-badge">Fasting Required</div>
+    </div>
+    <div class="test-item">
+      <h4>HbA1c (Glycated Hb)</h4>
+      <p>Diabetes • 6 hrs</p>
+      <div class="test-badge">Diabetes Panel</div>
+    </div>
+    <div class="test-item">
+      <h4>Thyroid Function (TSH, T3, T4)</h4>
+      <p>Hormones • 24 hrs</p>
+      <div class="test-badge">Endocrine</div>
+    </div>
+    <div class="test-item">
+      <h4>Liver Function Test (LFT)</h4>
+      <p>Biochemistry • 8 hrs</p>
+      <div class="test-badge">Hepatic Panel</div>
+    </div>
+    <div class="test-item">
+      <h4>COVID-19 RT-PCR</h4>
+      <p>Molecular • 12–24 hrs</p>
+      <div class="test-badge">Rapid Available</div>
+    </div>
+    <div class="test-item">
+      <h4>Vitamin D & B12</h4>
+      <p>Nutrition • 24 hrs</p>
+      <div class="test-badge">Deficiency Screen</div>
+    </div>
+    <div class="test-item">
+      <h4>Full Body Health Check</h4>
+      <p>Packages • 24–48 hrs</p>
+      <div class="test-badge">75+ Parameters</div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="booking">
+  <div class="booking-inner">
+    <div class="booking-info">
+      <div class="section-tag" style="background:rgba(0,196,154,0.1);border-color:rgba(0,196,154,0.25)">Get Started</div>
+      <h2>Book Your Test Today</h2>
+      <p>Schedule a home collection or walk in at any of our 12 collection centres. Reports delivered digitally within the promised time.</p>
+      <div class="contact-items">
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <p>+91 98765 43210</p>
+            <span>Mon–Sat, 7 AM – 8 PM</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="92fbfcf4fdd2fef3f0f1fde0f7bcfbfc">[email&#160;protected]</a></p>
+            <span>Reports & queries</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <p>12 Collection Centres</p>
+            <span>Across Ahmedabad & Gandhinagar</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🏠</div>
+          <div>
+            <p>Home Collection</p>
+            <span>Available 6 AM – 10 AM daily</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="booking-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="Raj">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="Patel">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Mobile Number</label>
+        <input type="tel" placeholder="+91 98765 43210">
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="raj@example.com">
+      </div>
+      <div class="form-group">
+        <label>Test / Package Required</label>
+        <select>
+          <option value="">Select a test or package</option>
+          <option>Complete Blood Count (CBC)</option>
+          <option>Lipid Profile Panel</option>
+          <option>Thyroid Function Test</option>
+          <option>Liver Function Test</option>
+          <option>Full Body Health Checkup</option>
+          <option>Vitamin D & B12</option>
+          <option>HbA1c (Glycated Haemoglobin)</option>
+          <option>Other / Multiple Tests</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Collection Type</label>
+          <select>
+            <option>Home Collection</option>
+            <option>Walk-in Centre</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Preferred Date</label>
+          <input type="date">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Additional Notes (optional)</label>
+        <textarea placeholder="Any specific instructions, doctor's referral, or medical history…"></textarea>
+      </div>
+      <button class="submit-btn">Confirm Booking →</button>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="howitworks">
+  <div class="hiw-header">
+    <div class="section-tag-gold">How It Works</div>
+    <h2>Step by Step</h2>
+    <p>From booking your test to receiving certified results — here's exactly what happens at every stage of your LabCore experience.</p>
+  </div>
+
+  <div class="timeline-wrap">
+    <div class="timeline-row">
+      <div class="tl-left"><div class="tl-num">1</div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="tl-card">
+          <div class="tl-category">Landing on the website</div>
+          <h3>Discover Our Services</h3>
+          <p>Patient visits LabCore.in and lands on the Home Page. They browse available diagnostic tests, read about our NABL accreditations, check the test menu, and explore health packages — all without creating an account.</p>
+          <div class="tl-tags"><span class="tl-tag">Home Page</span><span class="tl-tag">Test Menu</span><span class="tl-tag">Blog & Guides</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="tl-left"><div class="tl-num">2</div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="tl-card">
+          <div class="tl-category">Getting in touch</div>
+          <h3>Book a Test or Appointment</h3>
+          <p>Patient clicks "Book a Test" and fills the Booking Form — name, mobile, email, test required, and preferred date. Our team receives the request instantly and confirms within 2 hours via WhatsApp or call.</p>
+          <div class="tl-tags"><span class="tl-tag">Booking Form</span><span class="tl-tag">WhatsApp Confirm</span><span class="tl-tag">Home Collection</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="tl-left"><div class="tl-num">3</div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="tl-card">
+          <div class="tl-category">Sample collection</div>
+          <h3>Sample Collected & Processed</h3>
+          <p>A trained phlebotomist arrives at the patient's doorstep or the patient walks into a collection centre. Sample is collected, labelled with a unique tracking ID, and transported to the NABL-certified main lab under cold chain protocols.</p>
+          <div class="tl-tags"><span class="tl-tag">Home Phlebotomy</span><span class="tl-tag">Unique Sample ID</span><span class="tl-tag">Cold Chain</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="tl-left"><div class="tl-num">4</div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="tl-card">
+          <div class="tl-category">Lab analysis</div>
+          <h3>Testing & Quality Verification</h3>
+          <p>Samples are analysed on automated analysers by qualified pathologists. Every result passes a dual-verification quality check before approval. STAT and urgent tests are fast-tracked with priority processing — no manual follow-up needed.</p>
+          <div class="tl-tags"><span class="tl-tag">Automated Analysers</span><span class="tl-tag">Pathologist Review</span><span class="tl-tag">STAT Priority</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="tl-left"><div class="tl-num">5</div></div>
+      <div class="tl-right" style="padding-bottom:0">
+        <div class="tl-card">
+          <div class="tl-category">Report delivered 🎉</div>
+          <h3>Receive & Share Your Report</h3>
+          <p>Once verified, the patient receives a certified digital report via WhatsApp, Email, and the Patient App. Reports can be shared directly with their doctor. Hardcopy is available on request at any collection centre. Journey complete!</p>
+          <div class="tl-tags"><span class="tl-tag">WhatsApp Report</span><span class="tl-tag">Email PDF</span><span class="tl-tag">Patient App</span><span class="tl-tag">Download Anytime</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="techstack">
+  <div class="ts-header">
+    <div class="section-tag">Built With</div>
+    <h2>Technology Stack</h2>
+    <p>Modern, fast, and secure technologies carefully chosen to give patients and doctors a seamless experience on any device.</p>
+  </div>
+  <div class="ts-grid">
+    <div class="ts-card">
+      <span class="ts-icon">⚛️</span>
+      <h4>React JS</h4>
+      <p>Fast, component-based frontend with lightning-quick page transitions, reusable UI, and interactive patient dashboard.</p>
+      <span class="ts-pill">Frontend</span>
+    </div>
+    <div class="ts-card">
+      <span class="ts-icon">🟢</span>
+      <h4>Node.js + Express</h4>
+      <p>Backend REST API handling bookings, report delivery, notifications, and all business logic securely and at scale.</p>
+      <span class="ts-pill">Backend</span>
+    </div>
+    <div class="ts-card">
+      <span class="ts-icon">🍃</span>
+      <h4>MongoDB Atlas</h4>
+      <p>Flexible cloud database storing patient profiles, booking records, test results, and all status tracking data with ease.</p>
+      <span class="ts-pill">Database</span>
+    </div>
+    <div class="ts-card">
+      <span class="ts-icon">📱</span>
+      <h4>React Native</h4>
+      <p>Cross-platform mobile app for iOS and Android — one codebase for booking, report access, and live status updates.</p>
+      <span class="ts-pill">Mobile App</span>
+    </div>
+    <div class="ts-card">
+      <span class="ts-icon">💬</span>
+      <h4>WhatsApp API</h4>
+      <p>Automated booking confirmations, sample collection alerts, and report delivery via WhatsApp with zero friction.</p>
+      <span class="ts-pill">Notifications</span>
+    </div>
+    <div class="ts-card">
+      <span class="ts-icon">📧</span>
+      <h4>NodeMailer / SendGrid</h4>
+      <p>Automated email notifications for every step — booking confirmation, processing alerts, report delivery, and follow-ups.</p>
+      <span class="ts-pill">Email</span>
+    </div>
+    <div class="ts-card">
+      <span class="ts-icon">🔐</span>
+      <h4>JWT + SSL Security</h4>
+      <p>Fully secured HTTPS with JWT authentication. Patient data is encrypted and protected at all times per HIPAA standards.</p>
+      <span class="ts-pill">Security</span>
+    </div>
+    <div class="ts-card">
+      <span class="ts-icon">🚀</span>
+      <h4>Vercel + AWS</h4>
+      <p>99.9% uptime hosting with auto-scaling infrastructure. Website loads in under 1.5 seconds globally, fully CDN-backed.</p>
+      <span class="ts-pill">Hosting</span>
+    </div>
+  </div>
+</section>
+
+<!-- EVERYTHING INCLUDED -->
+<section class="everything">
+  <div class="ev-header">
+    <div class="section-tag">Everything Included</div>
+    <h2>All Pages & Features Delivered</h2>
+    <p>A complete, ready-to-launch lab platform with all the pages your patients and doctors need — not a template, built specifically for you.</p>
+  </div>
+  <div class="ev-grid">
+    <div class="ev-card">
+      <span class="ev-icon">🏠</span>
+      <h4>Home</h4>
+      <p>Hero + Services + Stats + CTA</p>
+    </div>
+    <div class="ev-card">
+      <span class="ev-icon">🧪</span>
+      <h4>Test Menu</h4>
+      <p>All Tests + Packages + Pricing</p>
+    </div>
+    <div class="ev-card">
+      <span class="ev-icon">📋</span>
+      <h4>Booking</h4>
+      <p>Form + Home Collection + Slots</p>
+    </div>
+    <div class="ev-card">
+      <span class="ev-icon">📄</span>
+      <h4>Reports</h4>
+      <p>Patient Login + PDF Download</p>
+    </div>
+    <div class="ev-card">
+      <span class="ev-icon">⭐</span>
+      <h4>Reviews</h4>
+      <p>Patient Testimonials + Ratings</p>
+    </div>
+    <div class="ev-card">
+      <span class="ev-icon">📞</span>
+      <h4>Contact</h4>
+      <p>Form + Map + WhatsApp Button</p>
+    </div>
+    <div class="ev-card">
+      <span class="ev-icon">📰</span>
+      <h4>Blog</h4>
+      <p>Health Tips + Lab Guides</p>
+    </div>
+    <div class="ev-card">
+      <span class="ev-icon">❓</span>
+      <h4>FAQ</h4>
+      <p>Common Patient Questions</p>
+    </div>
+    <div class="ev-card">
+      <span class="ev-icon">🏢</span>
+      <h4>About Us</h4>
+      <p>Team + Story + Certifications</p>
+    </div>
+    <div class="ev-card">
+      <span class="ev-icon">📊</span>
+      <h4>Dashboard</h4>
+      <p>Admin + Patient Login Panel</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M9 3h6l1 8H8L9 3zm-1 8l-4 10h16L16 11H8zm4-6a1 1 0 100 2 1 1 0 000-2z"/></svg>
+        </div>
+        <div>
+          <div class="logo-text">LabCore</div>
+          <span class="logo-sub">Diagnostics</span>
+        </div>
+      </div>
+      <p>Trusted diagnostic partner for patients, clinicians, and hospitals across Gujarat since 1999.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a>Haematology</a></li>
+        <li><a>Biochemistry</a></li>
+        <li><a>Microbiology</a></li>
+        <li><a>Molecular Testing</a></li>
+        <li><a>Histopathology</a></li>
+        <li><a>Home Collection</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a>Book a Test</a></li>
+        <li><a>Download Report</a></li>
+        <li><a>Test Packages</a></li>
+        <li><a>Find a Centre</a></li>
+        <li><a>Corporate Health</a></li>
+        <li><a>Careers</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a>Patient FAQ</a></li>
+        <li><a>Sample Preparation</a></li>
+        <li><a>Privacy Policy</a></li>
+        <li><a>Terms of Use</a></li>
+        <li><a>Grievance Redressal</a></li>
+        <li><a>Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 LabCore Diagnostics Pvt. Ltd. All rights reserved.</p>
+    <div class="accreditations">
+      <span class="accred-badge">NABL</span>
+      
