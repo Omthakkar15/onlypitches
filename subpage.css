@@ -146,6 +146,22 @@ body {
   border-color: rgba(30, 58, 95, 0.18);
 }
 
+@media (max-width: 480px) {
+  body {
+    padding: 20px 12px;
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+
+  .panel {
+    width: 100%;
+    padding: 24px 18px 18px;
+  }
+
+  .title {
+    font-size: 1.15rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     transition-duration: 0.01ms !important;

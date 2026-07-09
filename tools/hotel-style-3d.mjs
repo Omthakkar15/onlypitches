@@ -79,9 +79,13 @@ export function generateHotel3dHtml(b) {
         <a href="#gallery">Gallery</a>
         <a href="#contact">Contact</a>
       </nav>
-      <a href="#contact" class="btn-gold">${esc(b.cta)}</a>
+      <a href="#contact" class="btn-gold nav-cta">${esc(b.cta)}</a>
+      <button class="hamburger" id="hamburger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
+  <div class="nav-backdrop" id="nav-backdrop" hidden></div>
 
   <section class="hero" id="home">
     <canvas id="hero-canvas" class="hero-canvas"></canvas>

@@ -525,6 +525,29 @@ function initUI() {
   const navbar = document.getElementById("navbar");
   window.addEventListener("scroll", () => navbar.classList.toggle("scrolled", window.scrollY > 60), { passive: true });
 
+  const hamburger = document.getElementById("hamburger");
+  const navLinks = document.getElementById("nav-links");
+  const backdrop = document.getElementById("nav-backdrop");
+  const closeMenu = () => {
+    if (!navLinks || !hamburger) return;
+    navLinks.classList.remove("open");
+    hamburger.classList.remove("active");
+    hamburger.setAttribute("aria-expanded", "false");
+    if (backdrop) backdrop.hidden = true;
+    document.body.style.overflow = "";
+  };
+  if (hamburger && navLinks) {
+    hamburger.addEventListener("click", () => {
+      const open = navLinks.classList.toggle("open");
+      hamburger.classList.toggle("active", open);
+      hamburger.setAttribute("aria-expanded", open);
+      if (backdrop) backdrop.hidden = !open;
+      document.body.style.overflow = open ? "hidden" : "";
+    });
+    navLinks.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+    backdrop?.addEventListener("click", closeMenu);
+  }
+
   // Testimonial slider
   const track = document.getElementById("testimonial-track");
   const slides = track.children;
