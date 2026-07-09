@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotel | Aurelia Grand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../subpage.css" />
+  <style>
+    body { --accent: #c9a469; }
+    .panel::before { background: linear-gradient(90deg, #c9a469, #1b3b5f); }
+    .brand-badge { display: inline-flex; align-items: center; gap: .5rem; margin-top: .5rem; padding: .35rem .85rem; border-radius: 100px; background: rgba(201,164,105,.12); border: 1px solid rgba(201,164,105,.3); font-size: .82rem; font-weight: 600; color: #1b3b5f; }
+    .brand-mark { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid #c9a469; display: grid; place-items: center; font-weight: 700; font-size: .75rem; color: #c9a469; }
+    .btn-desc { display: block; font-size: .72rem; font-weight: 500; opacity: .75; margin-top: .15rem; }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <div class="top">
+      <div class="kicker">Premium Website Suite</div>
+      <h1 class="title">Hotel</h1>
+      <p class="subtitle">Where Luxury Meets Comfort</p>
+      <div class="brand-badge"><span class="brand-mark">A</span>Aurelia Grand Hotel</div>
+    </div>
+    <div class="btn-grid">
+      <button class="btn" id="btn-2d" type="button">2D Site<span class="btn-desc">Classic premium layout</span></button>
+      <button class="btn" id="btn-3d" type="button">3D Site<span class="btn-desc">Immersive Three.js experience</span></button>
+      <button class="btn" id="btn-crm" type="button">CRM<span class="btn-desc">Client management portal</span></button>
+    </div>
+    <button class="back" id="btn-back" type="button">← Back to categories</button>
+  </div>
+  <script>
+    document.getElementById("btn-2d").onclick = () => location.href = "2d-site/index.html";
+    document.getElementById("btn-3d").onclick = () => location.href = "3d-site/index.html";
+    document.getElementById("btn-crm").onclick = () => location.href = "crm.html";
+    document.getElementById("btn-back").onclick = () => location.href = "../index.html";
+  </script>
+</body>
+</html>

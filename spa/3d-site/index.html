@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Serene Lotus — immersive 3D spa experience." />
+  <title>Serene Lotus | 3D Spa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-logo">S</div>
+    <p>Serene Lotus</p>
+    <div class="loading-spinner"></div>
+  </div>
+
+  <canvas id="ambient-canvas" class="ambient-canvas"></canvas>
+
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="#home" class="logo">Serene Lotus</a>
+      <nav class="nav-links" id="nav-links">
+        <a href="#home">Home</a>
+        <a href="#rooms">Treatments</a>
+        <a href="#amenities">Benefits</a>
+        <a href="#dining">Wellness</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a href="#contact" class="btn-gold">Book Treatment</a>
+    </div>
+  </header>
+
+  <section class="hero" id="home">
+    <canvas id="hero-canvas" class="hero-canvas"></canvas>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="eyebrow">Immersive 3D Experience</p>
+      <h1>Holistic Wellness Sanctuary</h1>
+      <p>Discover Serene Lotus through cinematic design, premium craftsmanship, and unforgettable service.</p>
+      <a href="#rooms" class="btn-gold">Explore Treatments</a>
+    </div>
+  </section>
+
+  <section class="section about reveal">
+    <div class="container split">
+      <div>
+        <p class="eyebrow dark">Welcome</p>
+        <h2>Crafted for Clients Who Expect Excellence</h2>
+        <p class="muted">Serene Lotus blends expertise with genuine care. Every experience is orchestrated with precision and warmth.</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong data-count="24">0</strong><span>Therapists</span></div>
+        <div class="stat"><strong data-count="15">0</strong><span>Rituals</span></div>
+        <div class="stat"><strong data-count="4.9">0</strong><span>Rating</span></div>
+        <div class="stat"><strong data-count="24">0</strong><span>Hour Support</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section room-showcase reveal" id="rooms">
+    <div class="container">
+      <h2 class="center">3D Treatments Showcase</h2>
+      <p class="center muted">Drag to rotate and switch between options.</p>
+      <div class="room-wrap">
+        <canvas id="room-canvas" class="room-canvas"></canvas>
+        <div class="room-panel">
+          <h3 id="room-title">Deep Tissue</h3>
+          <p id="room-desc">60 min full body</p>
+          <p class="price" id="room-price">From $120</p>
+          <div class="room-dots"><button class="dot active" data-room="0" aria-label="Deep Tissue"></button><button class="dot" data-room="1" aria-label="Facial Glow"></button><button class="dot" data-room="2" aria-label="Hot Stone"></button></div>
+        </div>
+      </div>
+      <div class="cards-grid"><article class="card"><h4>Deep Tissue</h4><p>60 min full body</p></article><article class="card"><h4>Facial Glow</h4><p>Organic botanicals</p></article><article class="card"><h4>Hot Stone</h4><p>Volcanic river stones</p></article></div>
+    </div>
+  </section>
+
+  <section class="section amenities reveal" id="amenities">
+    <div class="container">
+      <h2 class="center">3D Benefits</h2>
+      <div class="amenities-grid"><div class="amenity"><canvas class="amenity-canvas" data-icon="spa"></canvas><span>Wellness Spa</span></div><div class="amenity"><canvas class="amenity-canvas" data-icon="spa"></canvas><span>Holistic Care</span></div><div class="amenity"><canvas class="amenity-canvas" data-icon="gym"></canvas><span>Massage Therapy</span></div><div class="amenity"><canvas class="amenity-canvas" data-icon="spa"></canvas><span>Wellness Spa</span></div></div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="dining">
+    <div class="container split">
+      <img class="rounded" src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=1200&q=80" alt="Serene Lotus" />
+      <div>
+        <p class="eyebrow dark">Wellness</p>
+        <h2>Your Wellness Journey</h2>
+        <p class="muted">90-minute massage, aromatherapy bath, and herbal tea. Serene Lotus is committed to delivering an unparalleled experience tailored to your needs.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="gallery">
+    <div class="container">
+      <h2 class="center">Gallery</h2>
+      <div class="gallery-grid">
+        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80" alt="Serene Lotus" />
+        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbccff?w=600&q=80" alt="Serene Lotus" />
+        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80" alt="Serene Lotus" />
+        <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&q=80" alt="Serene Lotus" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="container">
+      <h2 class="center">Client Testimonials</h2>
+      <div class="testimonial-slider" id="testimonial-slider">
+        <button id="prev-test">‹</button>
+        <div class="testimonial-track" id="testimonial-track"><article class="testimonial"><p>"An absolutely exceptional experience. Professional, attentive, and truly Serene Lotus in every detail."</p><strong>— Sarah M.</strong></article><article class="testimonial"><p>"Exceeded every expectation. The quality and service are unmatched — we will definitely return."</p><strong>— James W.</strong></article><article class="testimonial"><p>"I've tried many places, but nothing compares. Attention to detail makes all the difference."</p><strong>— Elena R.</strong></article></div>
+        <button id="next-test">›</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="location">
+    <div class="container split">
+      <div>
+        <h2>Interactive Location Globe</h2>
+        <canvas id="globe-canvas" class="globe-canvas"></canvas>
+        <button id="toggle-map" class="btn-gold" type="button">Show Map</button>
+      </div>
+      <div id="map-wrapper" class="map-wrapper hidden">
+        <iframe title="Map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2483.0!2d-0.1527!3d51.5024!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTHCsDMwJzA4LjYiTiAwwrAwOScwOS43Ilc!5e0!3m2!1sen!2suk!4v1" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="contact">
+    <div class="container">
+      <h2 class="center">Book Treatment</h2>
+      <form class="booking-form">
+        <div class="field"><input placeholder=" " required /><label>Name</label></div>
+        <div class="field"><input type="email" placeholder=" " required /><label>Email</label></div>
+        <div class="field"><input type="date" placeholder=" " required /><label>Preferred Date</label></div>
+        <div class="field"><input type="date" placeholder=" " /><label>Alternate Date</label></div>
+        <div class="field"><select required><option value="" selected disabled></option><option>Deep Tissue</option><option>Facial Glow</option><option>Hot Stone</option></select><label>Treatment</label></div>
+        <div class="field"><input placeholder=" " required /><label>Phone</label></div>
+        <div class="field full"><textarea placeholder=" "></textarea><label>Message</label></div>
+        <button type="submit" class="btn-gold">Submit</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Serene Lotus — Holistic Wellness Sanctuary</p>
+      <p><a href="../index.html">← Back to Spa Menu</a></p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

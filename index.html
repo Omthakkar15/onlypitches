@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Choose your business type and get started building your professional website." />
+  <title>Choose Your Business Type | BizBuilder</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Sticky header: logo left, search right -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="#" class="logo" aria-label="BizBuilder home">
+        <span class="logo-mark" aria-hidden="true">◆</span>
+        <span class="logo-name">BizBuilder</span>
+      </a>
+
+      <div class="header-search">
+        <label for="search-input" class="visually-hidden">Search business types</label>
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input
+          type="search"
+          id="search-input"
+          class="search-input"
+          placeholder="Search business types…"
+          autocomplete="off"
+        />
+        <button type="button" id="clear-search" class="clear-search" aria-label="Clear search" hidden>&times;</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <!-- Page title -->
+    <section class="page-intro">
+      <h1 class="page-title">Choose Your Business Type</h1>
+      <p class="page-subtitle">Select your industry to get started</p>
+      <p id="search-status" class="search-status" aria-live="polite"></p>
+    </section>
+
+    <!-- Category grid — cards rendered by JS -->
+    <section class="categories-section" id="categories" aria-label="Business categories">
+      <div class="category-grid" id="category-grid"></div>
+      <p id="no-results" class="no-results" hidden>No business types match your search.</p>
+    </section>
+  </main>
+
+  <!-- Fixed bottom bar — appears after selection -->
+  <aside class="bottom-bar" id="bottom-bar" aria-label="Your selection" aria-hidden="true">
+    <div class="bottom-bar-inner">
+      <p class="bottom-bar-text" id="bottom-bar-text">You selected: —</p>
+      <button type="button" class="btn-continue" id="btn-continue">Continue</button>
+    </div>
+  </aside>
+
+  <script src="script.js"></script>
+</body>
+</html>
+4

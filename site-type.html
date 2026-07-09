@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Choose Site Type</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="subpage.css" />
+</head>
+<body>
+  <div class="panel">
+    <div class="top">
+      <div class="kicker">Next step</div>
+      <h1 class="title" id="page-title">Choose what to build</h1>
+      <p class="subtitle" id="page-subtitle">Pick an option to continue.</p>
+    </div>
+
+    <div class="btn-grid">
+      <button class="btn" id="btn-2d" type="button">2D Site</button>
+      <button class="btn" id="btn-3d" type="button">3D Site</button>
+      <button class="btn" id="btn-crm" type="button">CRM</button>
+    </div>
+
+    <button class="back" id="btn-back" type="button">Back to categories</button>
+  </div>
+
+  <script>
+    const selected = new URLSearchParams(window.location.search).get("business") || "";
+    if (selected) {
+      const name = decodeURIComponent(selected);
+      document.title = name + \" - Choose Site Type\";
+      document.getElementById(\"page-title\").textContent = name;
+      document.getElementById(\"page-subtitle\").textContent = \"Choose a site option for your business.\";
+    }
+
+    document.getElementById("btn-2d").addEventListener("click", () => {
+      window.location.href = "2d-site.html";
+    });
+
+    document.getElementById("btn-3d").addEventListener("click", () => {
+      window.location.href = "3d-site.html";
+    });
+
+    document.getElementById("btn-crm").addEventListener("click", () => {
+      window.location.href = "crm.html";
+    });
+
+    document.getElementById(\"btn-back\").addEventListener(\"click\", () => {
+      window.location.href = \"index.html\";
+    });
+  </script>
+</body>
+</html>

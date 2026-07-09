@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Aurelia Grand Hotel — Where luxury meets comfort. Experience 5-star boutique hospitality." />
+  <title>Aurelia Grand Hotel | Luxury Boutique Stay</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="#home" class="logo">
+        <span class="logo-mark">A</span>
+        <span class="logo-text">Aurelia Grand</span>
+      </a>
+
+      <nav class="nav-links" id="nav-links" aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#rooms">Rooms</a>
+        <a href="#amenities">Amenities</a>
+        <a href="#dining">Dining</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <a href="#booking" class="btn-gold nav-cta">Book Now</a>
+
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="hero-bg">
+      <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1920&q=80" alt="Luxury hotel exterior at dusk" />
+      <div class="hero-overlay"></div>
+    </div>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow fade-up">Est. 1987 · Five-Star Boutique</p>
+      <h1 class="hero-title fade-up">Where Luxury<br />Meets Comfort</h1>
+      <p class="hero-subtitle fade-up">An intimate sanctuary of refined elegance, nestled in the heart of the city.</p>
+    </div>
+
+    <!-- Floating booking widget -->
+    <div class="booking-widget fade-up" id="hero-booking">
+      <form class="booking-form" id="hero-booking-form" novalidate>
+        <div class="booking-field">
+          <label for="check-in">Check-in</label>
+          <input type="date" id="check-in" name="checkIn" required />
+          <span class="field-error" id="err-check-in"></span>
+        </div>
+        <div class="booking-field">
+          <label for="check-out">Check-out</label>
+          <input type="date" id="check-out" name="checkOut" required />
+          <span class="field-error" id="err-check-out"></span>
+        </div>
+        <div class="booking-field">
+          <label for="guests">Guests</label>
+          <select id="guests" name="guests">
+            <option value="1">1 Guest</option>
+            <option value="2" selected>2 Guests</option>
+            <option value="3">3 Guests</option>
+            <option value="4">4 Guests</option>
+            <option value="5">5+ Guests</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-gold booking-submit">Search</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="section about" id="about">
+    <div class="container about-grid">
+      <div class="about-image reveal">
+        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80" alt="Elegant hotel lobby" />
+        <div class="about-image-accent"></div>
+      </div>
+      <div class="about-text reveal">
+        <p class="section-eyebrow">Welcome</p>
+        <h2 class="section-title">A Legacy of<br />Refined Hospitality</h2>
+        <p>For nearly four decades, Aurelia Grand has been a beacon of understated luxury. Our philosophy is simple: every guest deserves an experience that feels personal, effortless, and unforgettable.</p>
+        <p>From the moment you arrive, our dedicated team ensures every detail — from the thread count of your linens to the vintage in your glass — exceeds expectation.</p>
+
+        <div class="stats-grid">
+          <div class="stat">
+            <span class="stat-number" data-target="38">0</span>
+            <span class="stat-label">Years of Service</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number" data-target="120">0</span>
+            <span class="stat-label">Luxury Rooms</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number" data-target="200">0</span>
+            <span class="stat-label">Dedicated Staff</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number" data-target="4.9">0</span>
+            <span class="stat-label">Guest Rating</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rooms -->
+  <section class="section rooms" id="rooms">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Accommodations</p>
+        <h2 class="section-title">Rooms &amp; Suites</h2>
+        <p class="section-desc">Each space is a private retreat, thoughtfully designed for rest and rejuvenation.</p>
+      </div>
+
+      <div class="rooms-grid">
+        <article class="room-card reveal">
+          <div class="room-image">
+            <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80" alt="Deluxe Room" />
+            <div class="room-overlay">
+              <p>Spacious king bed, marble bathroom, city skyline views, and complimentary minibar.</p>
+            </div>
+          </div>
+          <div class="room-info">
+            <h3>Deluxe Room</h3>
+            <p class="room-price">From <strong>$320</strong> / night</p>
+            <ul class="room-amenities">
+              <li>WiFi</li><li>AC</li><li>Breakfast</li><li>Minibar</li>
+            </ul>
+            <a href="#booking" class="btn-outline">View Details</a>
+          </div>
+        </article>
+
+        <article class="room-card reveal">
+          <div class="room-image">
+            <img src="https://images.unsplash.com/photo-1611892440504-42a784e15d7f?w=600&q=80" alt="Executive Suite" />
+            <div class="room-overlay">
+              <p>Separate living area, premium linens, executive desk, and panoramic floor-to-ceiling windows.</p>
+            </div>
+          </div>
+          <div class="room-info">
+            <h3>Executive Suite</h3>
+            <p class="room-price">From <strong>$520</strong> / night</p>
+            <ul class="room-amenities">
+              <li>WiFi</li><li>AC</li><li>Breakfast</li><li>Lounge Access</li>
+            </ul>
+            <a href="#booking" class="btn-outline">View Details</a>
+          </div>
+        </article>
+
+        <article class="room-card reveal">
+          <div class="room-image">
+            <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600&q=80" alt="Grand Suite" />
+            <div class="room-overlay">
+              <p>Two bedrooms, private terrace, butler service, and bespoke turndown amenities nightly.</p>
+            </div>
+          </div>
+          <div class="room-info">
+            <h3>Grand Suite</h3>
+            <p class="room-price">From <strong>$780</strong> / night</p>
+            <ul class="room-amenities">
+              <li>WiFi</li><li>AC</li><li>Butler</li><li>Terrace</li>
+            </ul>
+            <a href="#booking" class="btn-outline">View Details</a>
+          </div>
+        </article>
+
+        <article class="room-card reveal">
+          <div class="room-image">
+            <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3fdf6?w=600&q=80" alt="Presidential Suite" />
+            <div class="room-overlay">
+              <p>Private elevator access, grand piano, personal chef on request, and 360° penthouse views.</p>
+            </div>
+          </div>
+          <div class="room-info">
+            <h3>Presidential Suite</h3>
+            <p class="room-price">From <strong>$1,200</strong> / night</p>
+            <ul class="room-amenities">
+              <li>WiFi</li><li>Chef</li><li>Spa</li><li>Chauffeur</li>
+            </ul>
+            <a href="#booking" class="btn-outline">View Details</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Amenities -->
+  <section class="section amenities" id="amenities">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Experience</p>
+        <h2 class="section-title">World-Class Amenities</h2>
+      </div>
+
+      <div class="amenities-grid">
+        <div class="amenity reveal">
+          <div class="amenity-icon">&#9830;</div>
+          <h3>Spa &amp; Wellness</h3>
+          <p>Full-service spa with thermal pools</p>
+        </div>
+        <div class="amenity reveal">
+          <div class="amenity-icon">&#9672;</div>
+          <h3>Infinity Pool</h3>
+          <p>Rooftop pool with skyline views</p>
+        </div>
+        <div class="amenity reveal">
+          <div class="amenity-icon">&#9650;</div>
+          <h3>Fitness Center</h3>
+          <p>24/7 state-of-the-art gym</p>
+        </div>
+        <div class="amenity reveal">
+          <div class="amenity-icon">&#9733;</div>
+          <h3>Fine Dining</h3>
+          <p>Michelin-inspired cuisine</p>
+        </div>
+        <div class="amenity reveal">
+          <div class="amenity-icon">&#9826;</div>
+          <h3>Concierge</h3>
+          <p>Personalized 24-hour service</p>
+        </div>
+        <div class="amenity reveal">
+          <div class="amenity-icon">&#9679;</div>
+          <h3>Free WiFi</h3>
+          <p>High-speed throughout property</p>
+        </div>
+        <div class="amenity reveal">
+          <div class="amenity-icon">&#9632;</div>
+          <h3>Valet Parking</h3>
+          <p>Complimentary secure parking</p>
+        </div>
+        <div class="amenity reveal">
+          <div class="amenity-icon">&#9992;</div>
+          <h3>Airport Shuttle</h3>
+          <p>Private luxury transfers</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dining -->
+  <section class="section dining" id="dining">
+    <div class="container dining-grid">
+      <div class="dining-images reveal">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=80" alt="Fine dining restaurant" class="dining-img-main" />
+        <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=400&q=80" alt="Hotel bar" class="dining-img-secondary" />
+      </div>
+      <div class="dining-text reveal">
+        <p class="section-eyebrow">Culinary</p>
+        <h2 class="section-title">The Aurelia Kitchen</h2>
+        <p>Our award-winning restaurant celebrates seasonal, locally-sourced ingredients crafted into contemporary European cuisine with global influences.</p>
+        <p>The adjacent Aurelia Bar offers an intimate atmosphere with rare spirits, artisan cocktails, and live jazz on weekends.</p>
+        <div class="dining-details">
+          <div><strong>Breakfast</strong><span>7:00 AM – 10:30 AM</span></div>
+          <div><strong>Lunch</strong><span>12:00 PM – 3:00 PM</span></div>
+          <div><strong>Dinner</strong><span>6:00 PM – 11:00 PM</span></div>
+        </div>
+        <a href="#contact" class="btn-gold">Reserve a Table</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="section gallery" id="gallery">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Visual Journey</p>
+        <h2 class="section-title">Gallery</h2>
+      </div>
+
+      <div class="gallery-grid" id="gallery-grid">
+        <div class="gallery-item reveal" data-index="0">
+          <img src="https://images.unsplash.com/photo-1618773928121-c1efaa7301ce?w=600&q=80" alt="Luxury bedroom" />
+        </div>
+        <div class="gallery-item reveal tall" data-index="1">
+          <img src="https://images.unsplash.com/photo-1542314831-068cd1dbccff?w=600&q=80" alt="Hotel lobby" />
+        </div>
+        <div class="gallery-item reveal" data-index="2">
+          <img src="https://images.unsplash.com/photo-1575429198097-0414c08b3c0a?w=600&q=80" alt="Swimming pool" />
+        </div>
+        <div class="gallery-item reveal wide" data-index="3">
+          <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80" alt="Restaurant dining" />
+        </div>
+        <div class="gallery-item reveal" data-index="4">
+          <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=600&q=80" alt="Wedding event" />
+        </div>
+        <div class="gallery-item reveal" data-index="5">
+          <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80" alt="Ocean view suite" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+    <button class="lightbox-prev" id="lightbox-prev" aria-label="Previous">&#8249;</button>
+    <img src="" alt="" id="lightbox-img" />
+    <button class="lightbox-next" id="lightbox-next" aria-label="Next">&#8250;</button>
+  </div>
+
+  <!-- Testimonials -->
+  <section class="section testimonials" id="testimonials">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Guest Voices</p>
+        <h2 class="section-title">What Our Guests Say</h2>
+      </div>
+
+      <div class="testimonial-carousel" id="testimonial-carousel">
+        <div class="testimonial-track" id="testimonial-track">
+          <div class="testimonial-slide active">
+            <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <blockquote>"An absolutely transcendent experience. The attention to detail, the warmth of the staff, and the sheer beauty of the property made our anniversary unforgettable."</blockquote>
+            <div class="testimonial-author">
+              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80" alt="Sarah Mitchell" />
+              <div><strong>Sarah Mitchell</strong><span>New York, USA</span></div>
+            </div>
+          </div>
+          <div class="testimonial-slide">
+            <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <blockquote>"The Presidential Suite exceeded every expectation. From the private chef to the panoramic views — this is what true luxury feels like."</blockquote>
+            <div class="testimonial-author">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80" alt="James Whitfield" />
+              <div><strong>James Whitfield</strong><span>London, UK</span></div>
+            </div>
+          </div>
+          <div class="testimonial-slide">
+            <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <blockquote>"I've stayed at hotels around the world, and Aurelia Grand stands apart. The spa alone is worth the visit. Already planning our return."</blockquote>
+            <div class="testimonial-author">
+              <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&q=80" alt="Elena Rodriguez" />
+              <div><strong>Elena Rodriguez</strong><span>Barcelona, Spain</span></div>
+            </div>
+          </div>
+          <div class="testimonial-slide">
+            <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <blockquote>"Perfect for our corporate retreat. Impeccable meeting facilities, outstanding catering, and a team that anticipates every need."</blockquote>
+            <div class="testimonial-author">
+              <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&q=80" alt="David Chen" />
+              <div><strong>David Chen</strong><span>Singapore</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-controls">
+          <button class="carousel-btn" id="carousel-prev" aria-label="Previous review">&#8249;</button>
+          <div class="carousel-dots" id="carousel-dots"></div>
+          <button class="carousel-btn" id="carousel-next" aria-label="Next review">&#8250;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Offers -->
+  <section class="section offers" id="offers">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Exclusive</p>
+        <h2 class="section-title">Special Offers</h2>
+      </div>
+
+      <div class="offers-grid">
+        <article class="offer-card reveal">
+          <div class="offer-badge">Most Popular</div>
+          <img src="https://images.unsplash.com/photo-1522673607210-8e2aa1cff20d?w=500&q=80" alt="Honeymoon package" />
+          <div class="offer-body">
+            <h3>Honeymoon Package</h3>
+            <p>3 nights in a Grand Suite, couples spa, champagne dinner, and rose petal turndown.</p>
+            <p class="offer-price">From <strong>$2,400</strong></p>
+            <a href="#booking" class="btn-gold">Book Package</a>
+          </div>
+        </article>
+
+        <article class="offer-card reveal">
+          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500&q=80" alt="Weekend getaway" />
+          <div class="offer-body">
+            <h3>Weekend Getaway</h3>
+            <p>2 nights in a Deluxe Room, daily breakfast, late checkout, and welcome cocktail.</p>
+            <p class="offer-price">From <strong>$680</strong></p>
+            <a href="#booking" class="btn-gold">Book Package</a>
+          </div>
+        </article>
+
+        <article class="offer-card reveal">
+          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=500&q=80" alt="Business stay" />
+          <div class="offer-body">
+            <h3>Business Stay</h3>
+            <p>Executive Suite, meeting room access, airport transfer, and express laundry service.</p>
+            <p class="offer-price">From <strong>$1,100</strong></p>
+            <a href="#booking" class="btn-gold">Book Package</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Location -->
+  <section class="section location" id="location">
+    <div class="container location-grid">
+      <div class="location-info reveal">
+        <p class="section-eyebrow">Find Us</p>
+        <h2 class="section-title">Our Location</h2>
+        <address>
+          <strong>Aurelia Grand Hotel</strong><br />
+          42 Kensington Boulevard<br />
+          Mayfair, London W1K 4QP
+        </address>
+        <ul class="nearby-list">
+          <li><strong>Hyde Park</strong> — 5 min walk</li>
+          <li><strong>Buckingham Palace</strong> — 12 min walk</li>
+          <li><strong>Harrods</strong> — 8 min walk</li>
+          <li><strong>Heathrow Airport</strong> — 45 min drive</li>
+        </ul>
+        <a href="https://maps.google.com" target="_blank" rel="noopener" class="btn-outline">Get Directions</a>
+      </div>
+      <div class="location-map reveal">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2483.0!2d-0.1527!3d51.5024!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTHCsDMwJzA4LjYiTiAwwrAwOScwOS43Ilc!5e0!3m2!1sen!2suk!4v1"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Hotel location map"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact / Booking -->
+  <section class="section contact" id="contact">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Reservations</p>
+        <h2 class="section-title">Book Your Stay</h2>
+      </div>
+
+      <form class="contact-form reveal" id="booking" novalidate>
+        <div class="form-row">
+          <div class="float-field">
+            <input type="text" id="fname" name="name" placeholder=" " required />
+            <label for="fname">Full Name</label>
+            <span class="field-error" id="err-fname"></span>
+          </div>
+          <div class="float-field">
+            <input type="email" id="femail" name="email" placeholder=" " required />
+            <label for="femail">Email Address</label>
+            <span class="field-error" id="err-femail"></span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="float-field">
+            <input type="tel" id="fphone" name="phone" placeholder=" " required />
+            <label for="fphone">Phone Number</label>
+            <span class="field-error" id="err-fphone"></span>
+          </div>
+          <div class="float-field">
+            <select id="froom" name="roomType" required>
+              <option value="" disabled selected></option>
+              <option value="deluxe">Deluxe Room</option>
+              <option value="executive">Executive Suite</option>
+              <option value="grand">Grand Suite</option>
+              <option value="presidential">Presidential Suite</option>
+            </select>
+            <label for="froom">Room Type</label>
+            <span class="field-error" id="err-froom"></span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="float-field">
+            <input type="date" id="fcheckin" name="checkIn" placeholder=" " required />
+            <label for="fcheckin">Check-in Date</label>
+            <span class="field-error" id="err-fcheckin"></span>
+          </div>
+          <div class="float-field">
+            <input type="date" id="fcheckout" name="checkOut" placeholder=" " required />
+            <label for="fcheckout">Check-out Date</label>
+            <span class="field-error" id="err-fcheckout"></span>
+          </div>
+        </div>
+        <div class="float-field full">
+          <textarea id="fmessage" name="message" rows="4" placeholder=" "></textarea>
+          <label for="fmessage">Special Requests</label>
+        </div>
+        <button type="submit" class="btn-gold form-submit">Submit Reservation</button>
+        <p class="form-success" id="form-success" hidden>Thank you! Your reservation request has been received. We'll confirm shortly.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a href="#home" class="logo">
+          <span class="logo-mark">A</span>
+          <span class="logo-text">Aurelia Grand</span>
+        </a>
+        <p>A sanctuary of refined luxury in the heart of London. Where every stay becomes a cherished memory.</p>
+        <div class="social-links">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Facebook">FB</a>
+          <a href="#" aria-label="Twitter">TW</a>
+          <a href="#" aria-label="LinkedIn">LI</a>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <a href="#rooms">Rooms</a>
+        <a href="#dining">Dining</a>
+        <a href="#amenities">Amenities</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#offers">Offers</a>
+      </div>
+
+      <div class="footer-contact">
+        <h4>Contact</h4>
+        <p>+44 20 7946 0958</p>
+        <p>reservations@aureliagrand.com</p>
+        <p>42 Kensington Blvd, London</p>
+      </div>
+
+      <div class="footer-newsletter">
+        <h4>Newsletter</h4>
+        <p>Exclusive offers delivered to your inbox.</p>
+        <form class="newsletter-form" id="newsletter-form">
+          <input type="email" placeholder="Your email" required />
+          <button type="submit" class="btn-gold">Subscribe</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; 2026 Aurelia Grand Hotel. All rights reserved.</p>
+        <a href="../index.html" class="footer-back">← Back to Hotel Menu</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Sticky mobile Book Now -->
+  <a href="#booking" class="sticky-book" id="sticky-book">Book Now</a>
+
+  <script src="script.js"></script>
+</body>
+</html>

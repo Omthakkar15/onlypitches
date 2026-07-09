@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Aurelia Grand 3D: cinematic luxury hotel website powered by Three.js and GSAP." />
+  <title>Aurelia Grand | 3D Luxury Hotel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-logo">A</div>
+    <p>Aurelia Grand</p>
+    <div class="loading-spinner"></div>
+  </div>
+
+  <canvas id="ambient-canvas" class="ambient-canvas"></canvas>
+
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="#home" class="logo">Aurelia Grand</a>
+      <nav class="nav-links" id="nav-links">
+        <a href="#home">Home</a>
+        <a href="#rooms">Rooms</a>
+        <a href="#amenities">Amenities</a>
+        <a href="#dining">Dining</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a href="#contact" class="btn-gold">Book Now</a>
+    </div>
+  </header>
+
+  <section class="hero" id="home">
+    <canvas id="hero-canvas" class="hero-canvas"></canvas>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="eyebrow">Immersive 3D Experience</p>
+      <h1>Where Luxury Meets<br />Cinematic Design</h1>
+      <p>Discover the elegance of Aurelia Grand through sculpted architecture, ambient gold light, and curated hospitality.</p>
+      <a href="#rooms" class="btn-gold">Explore Suites</a>
+    </div>
+  </section>
+
+  <section class="section about reveal">
+    <div class="container split">
+      <div>
+        <p class="eyebrow dark">A Legacy of Grace</p>
+        <h2>Crafted for the World’s Most Refined Travelers</h2>
+        <p class="muted">Aurelia Grand blends heritage elegance with modern artistry. Every guest journey is orchestrated with precision, discretion, and warmth.</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong data-count="38">0</strong><span>Years of Service</span></div>
+        <div class="stat"><strong data-count="124">0</strong><span>Luxury Rooms</span></div>
+        <div class="stat"><strong data-count="4.9">0</strong><span>Guest Rating</span></div>
+        <div class="stat"><strong data-count="24">0</strong><span>Hour Concierge</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section room-showcase reveal" id="rooms">
+    <div class="container">
+      <h2 class="center">3D Room Showcase</h2>
+      <p class="center muted">Drag to rotate and switch room types.</p>
+      <div class="room-wrap">
+        <canvas id="room-canvas" class="room-canvas"></canvas>
+        <div class="room-panel">
+          <h3 id="room-title">Deluxe Room</h3>
+          <p id="room-desc">A cozy, luminous retreat with king bedding and city skyline views.</p>
+          <p class="price" id="room-price">From $340/night</p>
+          <div class="room-dots">
+            <button class="dot active" data-room="0" aria-label="Deluxe"></button>
+            <button class="dot" data-room="1" aria-label="Suite"></button>
+            <button class="dot" data-room="2" aria-label="Presidential"></button>
+          </div>
+        </div>
+      </div>
+      <div class="cards-grid">
+        <article class="card"><h4>Deluxe</h4><p>Elegant essentials with refined comfort.</p></article>
+        <article class="card"><h4>Executive Suite</h4><p>Expanded lounge, personalized concierge service.</p></article>
+        <article class="card"><h4>Presidential</h4><p>Iconic top-floor residence with panoramic views.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section amenities reveal" id="amenities">
+    <div class="container">
+      <h2 class="center">3D Amenities</h2>
+      <div class="amenities-grid">
+        <div class="amenity"><canvas class="amenity-canvas" data-icon="pool"></canvas><span>Infinity Pool</span></div>
+        <div class="amenity"><canvas class="amenity-canvas" data-icon="spa"></canvas><span>Wellness Spa</span></div>
+        <div class="amenity"><canvas class="amenity-canvas" data-icon="gym"></canvas><span>Fitness Club</span></div>
+        <div class="amenity"><canvas class="amenity-canvas" data-icon="wine"></canvas><span>Fine Dining</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="dining">
+    <div class="container split">
+      <img class="rounded" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80" alt="Fine dining hall" />
+      <div>
+        <p class="eyebrow dark">Dining</p>
+        <h2>Award-Winning Culinary Theater</h2>
+        <p class="muted">Experience curated tasting menus, private chef tables, and rare cellar selections in an ambience of timeless sophistication.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="gallery">
+    <div class="container">
+      <h2 class="center">Gallery</h2>
+      <div class="gallery-grid">
+        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80" alt="" />
+        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbccff?w=600&q=80" alt="" />
+        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80" alt="" />
+        <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3fdf6?w=600&q=80" alt="" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="container">
+      <h2 class="center">Guest Testimonials</h2>
+      <div class="testimonial-slider" id="testimonial-slider">
+        <button id="prev-test">‹</button>
+        <div class="testimonial-track" id="testimonial-track">
+          <article class="testimonial"><p>“The most cinematic luxury stay we've ever had.”</p><strong>— Sophia M.</strong></article>
+          <article class="testimonial"><p>“Every touchpoint felt intentional and deeply premium.”</p><strong>— Daniel C.</strong></article>
+          <article class="testimonial"><p>“Design, service, cuisine — all extraordinary.”</p><strong>— Aisha R.</strong></article>
+        </div>
+        <button id="next-test">›</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="location">
+    <div class="container split">
+      <div>
+        <h2>Interactive Location Globe</h2>
+        <canvas id="globe-canvas" class="globe-canvas"></canvas>
+        <button id="toggle-map" class="btn-gold" type="button">Show Map</button>
+      </div>
+      <div id="map-wrapper" class="map-wrapper hidden">
+        <iframe title="Hotel Map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2483.0!2d-0.1527!3d51.5024!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTHCsDMwJzA4LjYiTiAwwrAwOScwOS43Ilc!5e0!3m2!1sen!2suk!4v1" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="contact">
+    <div class="container">
+      <h2 class="center">Book Your Stay</h2>
+      <form class="booking-form">
+        <div class="field"><input placeholder=" " required /><label>Name</label></div>
+        <div class="field"><input type="email" placeholder=" " required /><label>Email</label></div>
+        <div class="field"><input type="date" placeholder=" " required /><label>Check-in</label></div>
+        <div class="field"><input type="date" placeholder=" " required /><label>Check-out</label></div>
+        <div class="field"><select required><option value="" selected disabled></option><option>Deluxe</option><option>Suite</option><option>Presidential</option></select><label>Room Type</label></div>
+        <div class="field"><input placeholder=" " required /><label>Phone</label></div>
+        <div class="field full"><textarea placeholder=" "></textarea><label>Message</label></div>
+        <button type="submit" class="btn-gold">Submit</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Aurelia Grand — Cinematic Luxury Hospitality</p>
+      <p><a href="../index.html">← Back to Hotel Menu</a></p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

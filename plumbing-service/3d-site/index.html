@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="FlowMaster Plumbing — immersive 3D plumbing service experience." />
+  <title>FlowMaster Plumbing | 3D Plumbing Service</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-logo">F</div>
+    <p>FlowMaster Plumbing</p>
+    <div class="loading-spinner"></div>
+  </div>
+
+  <canvas id="ambient-canvas" class="ambient-canvas"></canvas>
+
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="#home" class="logo">FlowMaster Plumbing</a>
+      <nav class="nav-links" id="nav-links">
+        <a href="#home">Home</a>
+        <a href="#rooms">Services</a>
+        <a href="#amenities">Guarantees</a>
+        <a href="#dining">Process</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a href="#contact" class="btn-gold">Call Now</a>
+    </div>
+  </header>
+
+  <section class="hero" id="home">
+    <canvas id="hero-canvas" class="hero-canvas"></canvas>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="eyebrow">Immersive 3D Experience</p>
+      <h1>Fast Fixes, Lasting Solutions</h1>
+      <p>Discover FlowMaster Plumbing through cinematic design, premium craftsmanship, and unforgettable service.</p>
+      <a href="#rooms" class="btn-gold">Explore Services</a>
+    </div>
+  </section>
+
+  <section class="section about reveal">
+    <div class="container split">
+      <div>
+        <p class="eyebrow dark">Welcome</p>
+        <h2>Crafted for Clients Who Expect Excellence</h2>
+        <p class="muted">FlowMaster Plumbing blends expertise with genuine care. Every experience is orchestrated with precision and warmth.</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong data-count="24">0</strong><span>Hour Emergency</span></div>
+        <div class="stat"><strong data-count="15">0</strong><span>Licensed Plumbers</span></div>
+        <div class="stat"><strong data-count="4.8">0</strong><span>Rating</span></div>
+        <div class="stat"><strong data-count="24">0</strong><span>Hour Support</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section room-showcase reveal" id="rooms">
+    <div class="container">
+      <h2 class="center">3D Services Showcase</h2>
+      <p class="center muted">Drag to rotate and switch between options.</p>
+      <div class="room-wrap">
+        <canvas id="room-canvas" class="room-canvas"></canvas>
+        <div class="room-panel">
+          <h3 id="room-title">Leak Repair</h3>
+          <p id="room-desc">Same-day service</p>
+          <p class="price" id="room-price">From $120+</p>
+          <div class="room-dots"><button class="dot active" data-room="0" aria-label="Leak Repair"></button><button class="dot" data-room="1" aria-label="Water Heater"></button><button class="dot" data-room="2" aria-label="Repiping"></button></div>
+        </div>
+      </div>
+      <div class="cards-grid"><article class="card"><h4>Leak Repair</h4><p>Same-day service</p></article><article class="card"><h4>Water Heater</h4><p>Install included</p></article><article class="card"><h4>Repiping</h4><p>Whole home</p></article></div>
+    </div>
+  </section>
+
+  <section class="section amenities reveal" id="amenities">
+    <div class="container">
+      <h2 class="center">3D Guarantees</h2>
+      <div class="amenities-grid"><div class="amenity"><canvas class="amenity-canvas" data-icon="pool"></canvas><span>Build</span></div><div class="amenity"><canvas class="amenity-canvas" data-icon="spa"></canvas><span>Electrical</span></div><div class="amenity"><canvas class="amenity-canvas" data-icon="gym"></canvas><span>Plumbing</span></div><div class="amenity"><canvas class="amenity-canvas" data-icon="wine"></canvas><span>Cleaning</span></div></div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="dining">
+    <div class="container split">
+      <img class="rounded" src="https://images.unsplash.com/photo-1585704032915-34077ca1e3d8?w=1200&q=80" alt="FlowMaster Plumbing" />
+      <div>
+        <p class="eyebrow dark">Process</p>
+        <h2>How We Deliver</h2>
+        <p class="muted">Main line clearing for $149 — includes camera inspection. FlowMaster Plumbing is committed to delivering an unparalleled experience tailored to your needs.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="gallery">
+    <div class="container">
+      <h2 class="center">Gallery</h2>
+      <div class="gallery-grid">
+        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80" alt="FlowMaster Plumbing" />
+        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbccff?w=600&q=80" alt="FlowMaster Plumbing" />
+        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80" alt="FlowMaster Plumbing" />
+        <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&q=80" alt="FlowMaster Plumbing" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="container">
+      <h2 class="center">Client Testimonials</h2>
+      <div class="testimonial-slider" id="testimonial-slider">
+        <button id="prev-test">‹</button>
+        <div class="testimonial-track" id="testimonial-track"><article class="testimonial"><p>"An absolutely exceptional experience. Professional, attentive, and truly FlowMaster Plumbing in every detail."</p><strong>— Sarah M.</strong></article><article class="testimonial"><p>"Exceeded every expectation. The quality and service are unmatched — we will definitely return."</p><strong>— James W.</strong></article><article class="testimonial"><p>"I've tried many places, but nothing compares. Attention to detail makes all the difference."</p><strong>— Elena R.</strong></article></div>
+        <button id="next-test">›</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="location">
+    <div class="container split">
+      <div>
+        <h2>Interactive Location Globe</h2>
+        <canvas id="globe-canvas" class="globe-canvas"></canvas>
+        <button id="toggle-map" class="btn-gold" type="button">Show Map</button>
+      </div>
+      <div id="map-wrapper" class="map-wrapper hidden">
+        <iframe title="Map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2483.0!2d-0.1527!3d51.5024!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTHCsDMwJzA4LjYiTiAwwrAwOScwOS43Ilc!5e0!3m2!1sen!2suk!4v1" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="contact">
+    <div class="container">
+      <h2 class="center">Call Now</h2>
+      <form class="booking-form">
+        <div class="field"><input placeholder=" " required /><label>Name</label></div>
+        <div class="field"><input type="email" placeholder=" " required /><label>Email</label></div>
+        <div class="field"><input type="date" placeholder=" " required /><label>Preferred Date</label></div>
+        <div class="field"><input type="date" placeholder=" " /><label>Alternate Date</label></div>
+        <div class="field"><select required><option value="" selected disabled></option><option>Leak Repair</option><option>Water Heater</option><option>Repiping</option></select><label>Service Needed</label></div>
+        <div class="field"><input placeholder=" " required /><label>Phone</label></div>
+        <div class="field full"><textarea placeholder=" "></textarea><label>Message</label></div>
+        <button type="submit" class="btn-gold">Submit</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>FlowMaster Plumbing — Fast Fixes, Lasting Solutions</p>
+      <p><a href="../index.html">← Back to Plumbing Service Menu</a></p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
