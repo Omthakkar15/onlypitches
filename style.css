@@ -232,27 +232,32 @@ a {
 /* Mobile: fluid single column */
 @media (max-width: 619px) {
   :root {
-    --category-width: min(100%, 320px);
-    --btn-width: 100%;
-    --btn-gap: 12px;
+    --category-width: 100%;
+    --btn-gap: 10px;
   }
 
   .category-grid {
     grid-template-columns: 1fr;
-    justify-items: center;
+    justify-items: stretch;
     gap: 1.25rem;
+    width: 100%;
   }
 
   .category-card {
     width: 100%;
-    max-width: 320px;
+    max-width: none;
     height: auto;
-    min-height: var(--category-height);
+    min-height: auto;
+    padding: 14px 10px 12px;
+    overflow: visible;
   }
 
   .business-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     width: 100%;
+    overflow-x: visible;
+    overflow-y: visible;
+    gap: var(--btn-gap);
   }
 
   .business-btn {
@@ -260,9 +265,23 @@ a {
     min-width: 0;
     max-width: none;
     height: auto;
-    min-height: var(--btn-height);
+    min-height: 52px;
     max-height: none;
-    font-size: 0.68rem;
+    padding: 8px 6px;
+    font-size: 0.7rem;
+    line-height: 1.25;
+    white-space: normal;
+    overflow: visible;
+  }
+
+  .category-header {
+    height: auto;
+    min-height: 44px;
+    padding: 0 4px;
+  }
+
+  .category-title {
+    font-size: 0.85rem;
   }
 
   .header-inner {
@@ -311,6 +330,12 @@ a {
 @media (max-width: 380px) {
   .business-grid {
     grid-template-columns: 1fr;
+  }
+
+  .business-btn {
+    min-height: 46px;
+    font-size: 0.75rem;
+    padding: 10px 12px;
   }
 }
 
