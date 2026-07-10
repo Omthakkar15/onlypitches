@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://neurolligentlabs.tech/sitemap.xml
+
+# Block tool scripts from indexing
+Disallow: /tools/
