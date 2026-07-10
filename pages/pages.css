@@ -152,8 +152,7 @@ a:hover { color: #248f7a; }
   line-height: 1.25;
 }
 .pg-article h2:first-child { margin-top: 0; }
-.pg-article h2 em { font-style: italic; color: var(--pg-accent); }
-.pg-article h2 strong { font-weight: 800; }
+.pg-article h2 .acc { font-style: italic; color: var(--pg-accent); font-weight: 600; }
 
 .pg-article h3 {
   font-size: 1.1rem;
@@ -161,16 +160,30 @@ a:hover { color: #248f7a; }
   color: var(--pg-primary);
   margin: 1.5rem 0 0.5rem;
 }
-.pg-article h3 em { font-style: italic; color: var(--pg-accent-alt); }
+.pg-article h3 .acc { font-style: italic; color: var(--pg-accent-alt); font-weight: 600; }
+.pg-article h3 .num { color: var(--pg-accent); }
+
+.pg-hero h1 .acc { font-style: italic; }
+.pg-hero h1 .hl { font-weight: 800; }
+
+.pg-article p em { font-style: italic; color: var(--pg-text); }
+.pg-article p .hl { font-weight: 600; color: var(--pg-text); }
+
+.pg-stat .stat-num,
+.pg-stat strong {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--pg-accent);
+  line-height: 1;
+  margin-bottom: 0.35rem;
+}
 
 .pg-article p {
   color: var(--pg-muted);
   margin-bottom: 1rem;
   font-size: 0.97rem;
 }
-
-.pg-article p strong { color: var(--pg-text); font-weight: 600; }
-.pg-article p em { font-style: italic; color: var(--pg-text); }
 
 .pg-article ul, .pg-article ol {
   margin: 0.75rem 0 1.25rem 1.25rem;
@@ -216,7 +229,9 @@ a:hover { color: #248f7a; }
   font-size: 0.7rem;
   font-weight: 700;
   margin-right: 0.5rem;
+  vertical-align: top;
 }
+.pg-checklist .cl-label { font-weight: 600; color: var(--pg-text); }
 
 /* Highlight box */
 .pg-callout {
@@ -242,6 +257,7 @@ a:hover { color: #248f7a; }
   border-radius: 10px;
   border: 1px solid var(--pg-border);
 }
+.pg-stat .stat-num,
 .pg-stat strong {
   display: block;
   font-size: 1.6rem;
@@ -265,6 +281,7 @@ a:hover { color: #248f7a; }
   color: var(--pg-muted);
   font-size: 0.94rem;
 }
+.pg-steps .step-label { font-weight: 600; color: var(--pg-text); }
 .pg-steps li::before {
   content: counter(step);
   position: absolute; left: 1rem; top: 50%;
