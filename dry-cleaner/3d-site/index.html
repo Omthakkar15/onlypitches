@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sudbury Dry Cleaners — immersive 3D dry cleaner experience." />
+  <title>Sudbury Dry Cleaners | 3D Dry Cleaner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-logo">S</div>
+    <p>Sudbury Dry Cleaners</p>
+    <div class="loading-spinner"></div>
+  </div>
+
+  <canvas id="ambient-canvas" class="ambient-canvas"></canvas>
+
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="#home" class="logo">Sudbury Dry Cleaners</a>
+      <nav class="nav-links" id="nav-links">
+        <a href="#home">Home</a>
+        <a href="#rooms">Services</a>
+        <a href="#dining">Process</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a href="tel:+442089042747" class="btn-gold nav-cta">Call Now</a>
+      <button class="hamburger" id="hamburger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+  <div class="nav-backdrop" id="nav-backdrop" hidden></div>
+
+  <section class="hero" id="home">
+    <canvas id="hero-canvas" class="hero-canvas"></canvas>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="eyebrow">Immersive 3D Experience · 4.4★ from 47 Reviews</p>
+      <h1>Trusted Fabric Care in Sudbury Town</h1>
+      <p>Explore services through our interactive garment showcase, then call or WhatsApp instantly for same-day enquiries.</p>
+      <a href="#rooms" class="btn-gold">Explore Services</a>
+    </div>
+  </section>
+
+  <section class="section about reveal">
+    <div class="container split">
+      <div>
+        <p class="eyebrow dark">Welcome</p>
+        <h2>Crafted for Clients Who Expect Excellence</h2>
+        <p class="muted">Trusted by local families and professionals in Sudbury, Wembley, and Harrow for over 10 years of careful, reliable garment care.</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong data-count="10">0</strong><span>Years Serving Locals</span></div>
+        <div class="stat"><strong data-count="47">0</strong><span>Google Reviews</span></div>
+        <div class="stat"><strong data-count="4.4">0</strong><span>Average Rating</span></div>
+        <div class="stat"><strong data-count="24">0</strong><span>Hour Support</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section room-showcase reveal" id="rooms">
+    <div class="container">
+      <h2 class="center">3D Services Showcase</h2>
+      <p class="center muted">Drag to rotate and switch between options.</p>
+      <div class="room-wrap">
+        <canvas id="room-canvas" class="room-canvas"></canvas>
+        <div class="room-panel">
+          <h3 id="room-title">Suit Dry Cleaning</h3>
+          <p id="room-desc">Trusted finish for business and occasion wear</p>
+          <p class="price" id="room-price">Contact us</p>
+          <div class="room-dots"><button class="dot active" data-room="0" aria-label="Suit Dry Cleaning"></button><button class="dot" data-room="1" aria-label="Shirt Wash &amp; Iron"></button><button class="dot" data-room="2" aria-label="Delicate Fabrics"></button></div>
+        </div>
+      </div>
+      <div class="cards-grid"><article class="card"><h4>Suit Dry Cleaning</h4><p>Trusted finish for business and occasion wear</p></article><article class="card"><h4>Shirt Wash &amp; Iron</h4><p>Pressed, folded, and ready for the week</p></article><article class="card"><h4>Delicate Fabrics</h4><p>Voile curtains, wool coats, and specialty garments</p></article></div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="dining">
+    <div class="container split">
+      <img class="rounded" src="https://images.unsplash.com/photo-1521656693074-0ef32e80a5d5?w=1200&q=80" alt="Sudbury Dry Cleaners" />
+      <div>
+        <p class="eyebrow dark">Process</p>
+        <h2>How We Deliver</h2>
+        <p class="muted">Quick turnaround for shirts, suits, and delicate pieces when timing matters. Sudbury Dry Cleaners is committed to delivering an unparalleled experience tailored to your needs.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="gallery">
+    <div class="container">
+      <h2 class="center">Gallery</h2>
+      <div class="gallery-grid">
+        <p class="muted center" style="grid-column: 1 / -1;">Gallery photos removed.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="container">
+      <h2 class="center">Client Testimonials</h2>
+      <div class="testimonial-slider" id="testimonial-slider">
+        <button id="prev-test">‹</button>
+        <div class="testimonial-track" id="testimonial-track"><article class="testimonial"><p>"An absolutely exceptional experience. Professional, attentive, and truly Sudbury Dry Cleaners in every detail."</p><strong>— Sarah M.</strong></article><article class="testimonial"><p>"Exceeded every expectation. The quality and service are unmatched — we will definitely return."</p><strong>— James W.</strong></article><article class="testimonial"><p>"I've tried many places, but nothing compares. Attention to detail makes all the difference."</p><strong>— Elena R.</strong></article></div>
+        <button id="next-test">›</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="location">
+      <div class="container split">
+      <div>
+        <h2>Interactive Location Globe</h2>
+          <p class="muted" style="margin:.5rem 0 1rem;">806 Harrow Rd, Wembley HA0 3EL, United Kingdom · Mon-Sat: 8:30 AM to 7:00 PM</p>
+        <canvas id="globe-canvas" class="globe-canvas"></canvas>
+        <a href="https://www.google.com/maps/place/Sudbury+Dry+Cleaners/@51.5549876,-0.3155047,16z/data=!4m17!1m8!3m7!1s0x4876124d1c9602e9:0x790f2807e55342d4!2sChaska+Corner!8m2!3d51.5547597!4d-0.3155564!10e5!16s%2Fg%2F11x711397s!3m7!1s0x4876124d1f36115f:0x5ca77e612d33395f!8m2!3d51.555249!4d-0.3155235!9m1!1b1!16s%2Fg%2F1td_y1_s?entry=ttu&g_ep=EgoyMDI2MDcwOC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="btn-gold" style="margin-bottom:.6rem;">Open in Google Maps</a>
+        <button id="toggle-map" class="btn-gold" type="button">Show Map</button>
+      </div>
+      <div id="map-wrapper" class="map-wrapper hidden">
+        <iframe title="Map" src="https://www.google.com/maps?q=51.5549876,-0.3155047&z=16&output=embed" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="contact">
+    <div class="container">
+      <h2 class="center">Call or WhatsApp Now</h2>
+      <form class="booking-form">
+        <div class="field"><input placeholder=" " required /><label>Name</label></div>
+        <div class="field"><input type="email" placeholder=" " required /><label>Email</label></div>
+        <div class="field"><input type="date" placeholder=" " required /><label>Preferred Date</label></div>
+        <div class="field"><input type="date" placeholder=" " /><label>Alternate Date</label></div>
+        <div class="field"><select required><option value="" selected disabled></option><option>Suit Dry Cleaning</option><option>Shirt Wash &amp; Iron</option><option>Delicate Fabrics</option></select><label>Service Needed</label></div>
+        <div class="field"><input placeholder=" " required /><label>Phone</label></div>
+        <div class="field full"><textarea placeholder=" "></textarea><label>Message</label></div>
+        <button type="submit" class="btn-gold">Submit</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Sudbury Dry Cleaners — Trusted Fabric Care in Sudbury Town</p>
+      <p><a href="../index.html">← Back to Dry Cleaner Menu</a></p>
+    </div>
+  </footer>
+
+  <div class="cta-float">
+    <a href="tel:+442089042747" class="cta-float-call">Call</a>
+    <a href="https://wa.me/447701234567" target="_blank" rel="noopener noreferrer" class="cta-float-wa">WhatsApp</a>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

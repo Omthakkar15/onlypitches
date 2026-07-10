@@ -48,7 +48,7 @@ const CATEGORIES = [
     title: "Home & Trade Services",
     icon: "🔧",
     businesses: [
-      "Plumbing Service", "Electrician", "Cleaning Service", "Pest Control",
+      "Plumbing Service", "Electrician", "Cleaning Service", "Dry Cleaner", "Pest Control",
       "Interior Design", "Construction Company", "Landscaping Service",
     ],
   },
