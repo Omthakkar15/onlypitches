@@ -686,26 +686,32 @@ function initUI() {
 function onResize() {
   if (heroRenderer && heroCamera) {
     const c = document.getElementById("hero-canvas");
-    heroCamera.aspect = c.clientWidth / c.clientHeight;
-    heroCamera.updateProjectionMatrix();
-    heroRenderer.setSize(c.clientWidth, c.clientHeight);
+    if (c && c.clientWidth > 0 && c.clientHeight > 0) {
+      heroCamera.aspect = c.clientWidth / c.clientHeight;
+      heroCamera.updateProjectionMatrix();
+      heroRenderer.setSize(c.clientWidth, c.clientHeight);
+    }
   }
   if (ambientRenderer && ambientCamera) {
-    ambientCamera.aspect = window.innerWidth / window.innerHeight;
+    ambientCamera.aspect = window.innerWidth / Math.max(window.innerHeight, 1);
     ambientCamera.updateProjectionMatrix();
     ambientRenderer.setSize(window.innerWidth, window.innerHeight);
   }
   if (roomRenderer && roomCamera) {
     const c = document.getElementById("room-canvas");
-    roomCamera.aspect = c.clientWidth / c.clientHeight;
-    roomCamera.updateProjectionMatrix();
-    roomRenderer.setSize(c.clientWidth, c.clientHeight);
+    if (c && c.clientWidth > 0 && c.clientHeight > 0) {
+      roomCamera.aspect = c.clientWidth / c.clientHeight;
+      roomCamera.updateProjectionMatrix();
+      roomRenderer.setSize(c.clientWidth, c.clientHeight);
+    }
   }
   if (globeRenderer && globeCamera) {
     const c = document.getElementById("globe-canvas");
-    globeCamera.aspect = c.clientWidth / c.clientHeight;
-    globeCamera.updateProjectionMatrix();
-    globeRenderer.setSize(c.clientWidth, c.clientHeight);
+    if (c && c.clientWidth > 0 && c.clientHeight > 0) {
+      globeCamera.aspect = c.clientWidth / c.clientHeight;
+      globeCamera.updateProjectionMatrix();
+      globeRenderer.setSize(c.clientWidth, c.clientHeight);
+    }
   }
 }
 
