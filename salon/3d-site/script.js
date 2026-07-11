@@ -39,9 +39,12 @@ const roomData = [
   }
 ];
 
-const EARTH_TEXTURE = "https://threejs.org/examples/textures/planets/Earth_atmos_2048.jpg";
-const EARTH_CLOUDS = "https://threejs.org/examples/textures/planets/Earth_clouds_1024.png";
-const EARTH_BUMP = "https://threejs.org/examples/textures/planets/Earth_normal_2048.jpg";
+const EARTH_TEXTURE = "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_atmos_2048.jpg";
+const EARTH_CLOUDS = "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_clouds_1024.png";
+const EARTH_BUMP = "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_normal_2048.jpg";
+const EARTH_TEXTURE_FALLBACK = "../assets/earth-atmos.jpg";
+const EARTH_CLOUDS_FALLBACK = "../assets/earth-clouds.png";
+const EARTH_BUMP_FALLBACK = "../assets/earth-normal.jpg";
 
 function initLoadingManager() {
   textureLoader = new THREE.TextureLoader();
@@ -177,84 +180,85 @@ function initAmbientScene() {
   ambientScene.add(ambientPoints);
 }
 
-function buildBedroomDiorama(textureUrl) {
+function buildSalonChairShowcase(textureUrl) {
   const group = new THREE.Group();
+  const red = new THREE.MeshStandardMaterial({ color: 0xc23b3b, roughness: 0.55, metalness: 0.08 });
+  const chrome = new THREE.MeshStandardMaterial({ color: 0x3a3a3f, roughness: 0.22, metalness: 0.9 });
+  const softPink = new THREE.MeshStandardMaterial({ color: 0xf0c4c8, roughness: 0.7, metalness: 0.05 });
 
-  const frame = new THREE.Mesh(new THREE.BoxGeometry(3.6, 2.4, 0.08), goldMaterial());
-  frame.position.z = -0.04;
+  // Soft salon backdrop frame (like reference)
+  const frame = new THREE.Mesh(new THREE.BoxGeometry(2.4, 2.6, 0.06), softPink);
+  frame.position.set(0, 0.15, -0.55);
   group.add(frame);
 
-  const wallGeo = new THREE.PlaneGeometry(3.2, 2.1);
-  const wallMat = new THREE.MeshStandardMaterial({ color: 0x2a2218, roughness: 0.9 });
-  const wall = new THREE.Mesh(wallGeo, wallMat);
-  wall.position.z = 0.02;
+  const wall = new THREE.Mesh(
+    new THREE.PlaneGeometry(2.1, 2.3),
+    new THREE.MeshStandardMaterial({ color: 0x1a1518, roughness: 0.9 })
+  );
+  wall.position.set(0, 0.15, -0.51);
   group.add(wall);
+  if (textureUrl) {
+    textureLoader.load(textureUrl, (tex) => {
+      tex.encoding = THREE.sRGBEncoding;
+      wall.material.map = tex;
+      wall.material.needsUpdate = true;
+    });
+  }
 
-  textureLoader.load(textureUrl, (tex) => {
-    tex.encoding = THREE.sRGBEncoding;
-    wall.material.map = tex;
-    wall.material.roughness = 0.65;
-    wall.material.needsUpdate = true;
-  });
-
-  const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(3.2, 1.8),
-    new THREE.MeshStandardMaterial({ color: 0x1a1510, roughness: 0.75, metalness: 0.15 })
+  // Circular salon light above chair
+  const lamp = new THREE.Mesh(
+    new THREE.SphereGeometry(0.22, 24, 24),
+    new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xfff2e0, emissiveIntensity: 1.4 })
   );
-  floor.rotation.x = -Math.PI / 2;
-  floor.position.set(0, -1.05, 0.55);
-  group.add(floor);
+  lamp.position.set(0, 1.15, -0.2);
+  group.add(lamp);
+  const lampLight = new THREE.PointLight(0xffe8d2, 0.9, 5);
+  lampLight.position.copy(lamp.position);
+  group.add(lampLight);
 
-  const bedBase = new THREE.Mesh(
-    new THREE.BoxGeometry(1.55, 0.28, 2.05),
-    new THREE.MeshStandardMaterial({ color: 0xf0ebe3, roughness: 0.55 })
-  );
-  bedBase.position.set(0, -0.82, 0.35);
-  group.add(bedBase);
+  // Chrome circular base
+  const baseOuter = new THREE.Mesh(new THREE.CylinderGeometry(0.85, 0.9, 0.1, 40), chrome);
+  baseOuter.position.y = -1.05;
+  group.add(baseOuter);
+  const baseInner = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.58, 0.08, 36), chrome);
+  baseInner.position.y = -0.97;
+  group.add(baseInner);
 
-  const mattress = new THREE.Mesh(
-    new THREE.BoxGeometry(1.45, 0.18, 1.9),
-    new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.85 })
-  );
-  mattress.position.set(0, -0.66, 0.35);
-  group.add(mattress);
+  // Central pillar
+  const pillar = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.12, 0.7, 20), chrome);
+  pillar.position.y = -0.6;
+  group.add(pillar);
 
-  const headboard = new THREE.Mesh(
-    new THREE.BoxGeometry(1.6, 0.95, 0.12),
-    new THREE.MeshStandardMaterial({ color: 0x3d3428, roughness: 0.6, metalness: 0.2 })
-  );
-  headboard.position.set(0, -0.42, -0.72);
-  group.add(headboard);
+  // Seat cushion
+  const seat = new THREE.Mesh(new THREE.BoxGeometry(0.95, 0.28, 0.9), red);
+  seat.position.set(0, -0.18, 0.05);
+  group.add(seat);
 
-  const pillowL = new THREE.Mesh(
-    new THREE.BoxGeometry(0.55, 0.12, 0.38),
-    new THREE.MeshStandardMaterial({ color: 0xfaf8f5, roughness: 0.9 })
-  );
-  pillowL.position.set(-0.35, -0.52, -0.35);
-  pillowL.rotation.x = -0.15;
-  group.add(pillowL);
+  // Backrest
+  const back = new THREE.Mesh(new THREE.BoxGeometry(0.95, 1.05, 0.22), red);
+  back.position.set(0, 0.42, -0.34);
+  back.rotation.x = -0.08;
+  group.add(back);
 
-  const pillowR = pillowL.clone();
-  pillowR.position.x = 0.35;
-  group.add(pillowR);
+  // Headrest
+  const head = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.22, 0.2), red);
+  head.position.set(0, 1.0, -0.28);
+  group.add(head);
 
-  const nightstand = new THREE.Mesh(
-    new THREE.BoxGeometry(0.38, 0.42, 0.38),
-    new THREE.MeshStandardMaterial({ color: 0x2a2218, roughness: 0.5 })
-  );
-  nightstand.position.set(1.15, -0.84, -0.2);
-  group.add(nightstand);
+  // Armrests
+  const armPostL = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.35, 12), chrome);
+  armPostL.position.set(-0.52, 0.02, 0.05);
+  group.add(armPostL);
+  const armPostR = armPostL.clone();
+  armPostR.position.x = 0.52;
+  group.add(armPostR);
 
-  const lampGlow = new THREE.Mesh(
-    new THREE.SphereGeometry(0.1, 16, 16),
-    new THREE.MeshStandardMaterial({ color: 0xffe4b5, emissive: 0xffc870, emissiveIntensity: 1.2 })
-  );
-  lampGlow.position.set(1.15, -0.55, -0.2);
-  group.add(lampGlow);
-
-  const lampPoint = new THREE.PointLight(0xffd699, 0.6, 4);
-  lampPoint.position.copy(lampGlow.position);
-  group.add(lampPoint);
+  const armL = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.08, 0.55), red);
+  armL.position.set(-0.52, 0.2, 0.08);
+  group.add(armL);
+  const armR = armL.clone();
+  armR.position.x = 0.52;
+  group.add(armR);
 
   return group;
 }
@@ -263,87 +267,78 @@ function switchRoom(index) {
   if (!roomGroup || !roomScene) return;
   const rot = roomGroup.rotation.y;
   roomScene.remove(roomGroup);
-  roomGroup = buildBedroomDiorama(roomData[index].image);
+  roomGroup = buildSalonChairShowcase(roomData[index].image);
   roomGroup.rotation.y = rot;
   roomScene.add(roomGroup);
 }
 
 function buildAmenityIcon(type) {
   const group = new THREE.Group();
-  const gold = goldMaterial();
-  const goldGlow = goldMaterial(0xd4a5a5, 0.25);
+  const pink = new THREE.MeshStandardMaterial({ color: 0xe8a39a, roughness: 0.55, metalness: 0.08 });
+  const darkMetal = new THREE.MeshStandardMaterial({ color: 0x4a4a4e, roughness: 0.28, metalness: 0.9 });
+  const silver = new THREE.MeshStandardMaterial({ color: 0xc4c4c8, roughness: 0.22, metalness: 0.88 });
+  const gold = new THREE.MeshStandardMaterial({ color: 0xd4b896, roughness: 0.4, metalness: 0.45 });
+  const ink = new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: 0.7, metalness: 0.05 });
 
-  if (type === "pool") {
-    const water = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.85, 0.9, 0.12, 48),
-      new THREE.MeshStandardMaterial({ color: 0x3a8fb5, metalness: 0.6, roughness: 0.15, emissive: 0x1a4a6a, emissiveIntensity: 0.3 })
-    );
-    group.add(water);
-    const rim = new THREE.Mesh(new THREE.TorusGeometry(0.88, 0.06, 12, 48), gold);
-    rim.rotation.x = Math.PI / 2;
-    rim.position.y = 0.06;
-    group.add(rim);
-    const deck = new THREE.Mesh(
-      new THREE.BoxGeometry(2, 0.06, 2),
-      new THREE.MeshStandardMaterial({ color: 0x2a2218, roughness: 0.8 })
-    );
-    deck.position.y = -0.08;
-    group.add(deck);
-  } else if (type === "spa") {
-    const bowl = new THREE.Mesh(new THREE.SphereGeometry(0.7, 32, 32, 0, Math.PI * 2, 0, Math.PI / 2), gold);
-    bowl.rotation.x = Math.PI;
-    group.add(bowl);
-    const steam = new THREE.Mesh(
-      new THREE.SphereGeometry(0.18, 16, 16),
-      new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.35, emissive: 0xffffff, emissiveIntensity: 0.4 })
-    );
-    steam.position.set(-0.25, 0.55, 0);
-    group.add(steam);
-    const steam2 = steam.clone();
-    steam2.position.set(0.2, 0.7, 0.1);
-    steam2.scale.setScalar(0.8);
-    group.add(steam2);
-    const stone = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.95, 1, 0.15, 32),
-      new THREE.MeshStandardMaterial({ color: 0x3a3530, roughness: 0.9 })
-    );
-    stone.position.y = -0.1;
-    group.add(stone);
-  } else if (type === "gym") {
-    const bar = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 1.6, 16), goldGlow);
-    bar.rotation.z = Math.PI / 2;
-    group.add(bar);
-    const weightL = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.28, 0.22, 24), gold);
-    weightL.rotation.z = Math.PI / 2;
-    weightL.position.x = -0.72;
-    group.add(weightL);
-    const weightR = weightL.clone();
-    weightR.position.x = 0.72;
-    group.add(weightR);
-    const grip = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.08, 0.08), new THREE.MeshStandardMaterial({ color: 0x1a1510, roughness: 0.7 }));
-    grip.position.y = 0.14;
-    group.add(grip);
-  } else if (type === "wine") {
-    const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.05, 0.7, 12), gold);
-    stem.position.y = -0.15;
-    group.add(stem);
-    const base = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.38, 0.05, 24), gold);
-    base.position.y = -0.5;
-    group.add(base);
-    const bowl = new THREE.Mesh(
-      new THREE.SphereGeometry(0.42, 24, 24, 0, Math.PI * 2, 0, Math.PI / 2.2),
-      new THREE.MeshStandardMaterial({ color: 0x8b1a2e, metalness: 0.5, roughness: 0.3, emissive: 0x4a0a15, emissiveIntensity: 0.2 })
-    );
-    bowl.rotation.x = Math.PI;
-    bowl.position.y = 0.15;
-    group.add(bowl);
-    const liquid = new THREE.Mesh(
-      new THREE.CircleGeometry(0.3, 24),
-      new THREE.MeshStandardMaterial({ color: 0x6b1020, metalness: 0.7, roughness: 0.2 })
-    );
-    liquid.rotation.x = -Math.PI / 2;
-    liquid.position.y = 0.14;
-    group.add(liquid);
+  if (type === "scissors") {
+    const bladeA = new THREE.Mesh(new THREE.BoxGeometry(1.05, 0.09, 0.08), darkMetal);
+    bladeA.position.set(0.12, 0.18, 0);
+    bladeA.rotation.z = 0.38;
+    group.add(bladeA);
+    const bladeB = new THREE.Mesh(new THREE.BoxGeometry(1.05, 0.09, 0.08), darkMetal);
+    bladeB.position.set(0.12, -0.18, 0);
+    bladeB.rotation.z = -0.38;
+    group.add(bladeB);
+    const hinge = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.12, 16), silver);
+    hinge.rotation.x = Math.PI / 2;
+    group.add(hinge);
+    const loopL = new THREE.Mesh(new THREE.TorusGeometry(0.16, 0.035, 12, 24), silver);
+    loopL.position.set(-0.48, 0.28, 0);
+    group.add(loopL);
+    const loopR = new THREE.Mesh(new THREE.TorusGeometry(0.16, 0.035, 12, 24), silver);
+    loopR.position.set(-0.48, -0.28, 0);
+    group.add(loopR);
+  } else if (type === "friendly") {
+    // Speech bubble body
+    const bubble = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.78, 0.28), pink);
+    bubble.position.y = 0.08;
+    group.add(bubble);
+    // Soft rounded look via corner caps
+    [[-0.48, 0.38], [0.48, 0.38], [-0.48, -0.22], [0.48, -0.22]].forEach(([x, y]) => {
+      const cap = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.22, 0.28), pink);
+      cap.position.set(x, y, 0);
+      group.add(cap);
+    });
+    // Tail
+    const tail = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.28, 0.28), pink);
+    tail.position.set(-0.28, -0.42, 0);
+    tail.rotation.z = Math.PI / 4;
+    group.add(tail);
+    // Three dots (ellipsis)
+    [-0.28, 0, 0.28].forEach((x) => {
+      const dot = new THREE.Mesh(new THREE.SphereGeometry(0.07, 14, 14), ink);
+      dot.position.set(x, 0.1, 0.16);
+      group.add(dot);
+    });
+  } else if (type === "pricing") {
+    [-0.2, 0, 0.2].forEach((y, i) => {
+      const coin = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.48 - i * 0.015, 0.48 - i * 0.015, 0.14, 36),
+        gold
+      );
+      coin.position.y = y;
+      group.add(coin);
+    });
+  } else if (type === "loyalty") {
+    const planet = new THREE.Mesh(new THREE.DodecahedronGeometry(0.5, 0), pink);
+    group.add(planet);
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.78, 0.035, 10, 56), gold);
+    ring.rotation.x = Math.PI / 2.35;
+    ring.rotation.y = 0.15;
+    group.add(ring);
+  } else {
+    const fallback = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.7, 0.7), pink);
+    group.add(fallback);
   }
 
   return group;
@@ -370,7 +365,7 @@ function initRoomViewer() {
   rim.position.set(-3, 1, -2);
   roomScene.add(rim);
 
-  roomGroup = buildBedroomDiorama(roomData[0].image);
+  roomGroup = buildSalonChairShowcase(roomData[0].image);
   roomScene.add(roomGroup);
 
   let lastX = 0;
@@ -415,19 +410,19 @@ function initAmenities3D() {
   canvases.forEach((canvas) => {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(40, canvas.clientWidth / canvas.clientHeight, 0.1, 50);
-    camera.position.set(0, 0.3, 3.2);
+    camera.position.set(0, 0.15, 3.0);
     camera.lookAt(0, 0, 0);
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(canvas.clientWidth, canvas.clientHeight);
     renderer.outputEncoding = THREE.sRGBEncoding;
-    scene.add(new THREE.AmbientLight(0xfff5e8, 0.5));
-    const dl = new THREE.DirectionalLight(0xffffff, 0.9);
-    dl.position.set(2, 3, 4);
+    scene.add(new THREE.AmbientLight(0xfff5e8, 0.65));
+    const dl = new THREE.DirectionalLight(0xffffff, 1.05);
+    dl.position.set(2.2, 3.2, 4);
     scene.add(dl);
-    const accent = new THREE.PointLight(0xd4a5a5, 0.5, 8);
-    accent.position.set(-1, 2, 2);
-    scene.add(accent);
+    const fill = new THREE.DirectionalLight(0xffd8d0, 0.35);
+    fill.position.set(-2, 1, 2);
+    scene.add(fill);
 
     const icon = buildAmenityIcon(canvas.dataset.icon);
     scene.add(icon);
@@ -459,42 +454,79 @@ function initGlobe() {
   globeRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
   globeRenderer.outputEncoding = THREE.sRGBEncoding;
 
-  globeScene.add(new THREE.AmbientLight(0x4466aa, 0.35));
-  const dl = new THREE.DirectionalLight(0xffffff, 1.1);
+  globeScene.add(new THREE.AmbientLight(0x4f638d, 0.45));
+  const dl = new THREE.DirectionalLight(0xffffff, 1.15);
   dl.position.set(5, 2, 4);
   globeScene.add(dl);
+  const rim = new THREE.DirectionalLight(0x89a9ff, 0.45);
+  rim.position.set(-4, 1, -3);
+  globeScene.add(rim);
 
-  const earthMat = new THREE.MeshStandardMaterial({ color: 0x2244aa, roughness: 0.85, metalness: 0.05 });
+  const earthMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.82, metalness: 0.02 });
   globeEarth = new THREE.Mesh(new THREE.SphereGeometry(1.1, 64, 64), earthMat);
   globeScene.add(globeEarth);
 
-  textureLoader.load(EARTH_TEXTURE, (tex) => {
-    tex.encoding = THREE.sRGBEncoding;
-    globeEarth.material.map = tex;
-    globeEarth.material.needsUpdate = true;
-  });
-  textureLoader.load(EARTH_BUMP, (bump) => {
-    globeEarth.material.bumpMap = bump;
-    globeEarth.material.bumpScale = 0.04;
-    globeEarth.material.needsUpdate = true;
-  });
+  textureLoader.load(
+    EARTH_TEXTURE,
+    (tex) => {
+      tex.encoding = THREE.sRGBEncoding;
+      globeEarth.material.map = tex;
+      globeEarth.material.needsUpdate = true;
+    },
+    undefined,
+    () => {
+      textureLoader.load(EARTH_TEXTURE_FALLBACK, (tex) => {
+        tex.encoding = THREE.sRGBEncoding;
+        globeEarth.material.map = tex;
+        globeEarth.material.needsUpdate = true;
+      });
+    }
+  );
+  textureLoader.load(
+    EARTH_BUMP,
+    (bump) => {
+      globeEarth.material.bumpMap = bump;
+      globeEarth.material.bumpScale = 0.045;
+      globeEarth.material.needsUpdate = true;
+    },
+    undefined,
+    () => {
+      textureLoader.load(EARTH_BUMP_FALLBACK, (bump) => {
+        globeEarth.material.bumpMap = bump;
+        globeEarth.material.bumpScale = 0.045;
+        globeEarth.material.needsUpdate = true;
+      });
+    }
+  );
 
   const cloudMat = new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.28, depthWrite: false });
   globeClouds = new THREE.Mesh(new THREE.SphereGeometry(1.14, 48, 48), cloudMat);
   globeScene.add(globeClouds);
-  textureLoader.load(EARTH_CLOUDS, (cloudTex) => {
-    cloudTex.encoding = THREE.sRGBEncoding;
-    globeClouds.material.map = cloudTex;
-    globeClouds.material.alphaMap = cloudTex;
-    globeClouds.material.needsUpdate = true;
-  });
+  textureLoader.load(
+    EARTH_CLOUDS,
+    (cloudTex) => {
+      cloudTex.encoding = THREE.sRGBEncoding;
+      globeClouds.material.map = cloudTex;
+      globeClouds.material.alphaMap = cloudTex;
+      globeClouds.material.needsUpdate = true;
+    },
+    undefined,
+    () => {
+      textureLoader.load(EARTH_CLOUDS_FALLBACK, (cloudTex) => {
+        cloudTex.encoding = THREE.sRGBEncoding;
+        globeClouds.material.map = cloudTex;
+        globeClouds.material.alphaMap = cloudTex;
+        globeClouds.material.needsUpdate = true;
+      });
+    }
+  );
 
   globeScene.add(new THREE.Mesh(
     new THREE.SphereGeometry(1.22, 48, 48),
     new THREE.MeshBasicMaterial({ color: 0x4488ff, transparent: true, opacity: 0.08, side: THREE.BackSide })
   ));
 
-  const londonPos = latLonToVector3(51.5074, -0.1278, 1.12);
+  const londonPos = latLonToVector3(51.5024, -0.1527, 1.12);
   beacon = new THREE.Mesh(
     new THREE.SphereGeometry(0.045, 16, 16),
     new THREE.MeshStandardMaterial({ color: 0xffd700, emissive: 0xffaa00, emissiveIntensity: 2 })
