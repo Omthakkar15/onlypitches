@@ -70,15 +70,18 @@
       <h2 class="center">3D Services Showcase</h2>
       <p class="center muted">Drag to rotate and switch between options.</p>
       <div class="room-wrap">
-        <canvas id="room-canvas" class="room-canvas"></canvas>
+        <div class="room-canvas-wrap">
+          <canvas id="room-canvas" class="room-canvas"></canvas>
+          <p id="car-status" class="car-status" hidden></p>
+        </div>
         <div class="room-panel">
-          <h3 id="room-title">Brake Service</h3>
-          <p id="room-desc">Pads &amp; rotors</p>
-          <p class="price" id="room-price">From $180+</p>
-          <div class="room-dots"><button class="dot active" data-room="0" aria-label="Brake Service"></button><button class="dot" data-room="1" aria-label="Engine Diagnostic"></button><button class="dot" data-room="2" aria-label="Transmission"></button></div>
+          <h3 id="room-title">BMW M3</h3>
+          <p id="room-desc">Classic E30 performance coupe</p>
+          <p class="price" id="room-price">Service from $180+</p>
+          <div class="room-dots"><button class="dot active" data-room="0" aria-label="BMW M3"></button><button class="dot" data-room="1" aria-label="Porsche 911"></button><button class="dot" data-room="2" aria-label="Ferrari F40"></button></div>
         </div>
       </div>
-      <div class="cards-grid"><article class="card"><h4>Brake Service</h4><p>Pads &amp; rotors</p></article><article class="card"><h4>Engine Diagnostic</h4><p>Computer scan</p></article><article class="card"><h4>Transmission</h4><p>Rebuild options</p></article></div>
+      <div class="cards-grid"><article class="card"><h4>BMW M3</h4><p>Classic E30 performance coupe</p></article><article class="card"><h4>Porsche 911</h4><p>Iconic sports coupe</p></article><article class="card"><h4>Ferrari F40</h4><p>Legendary Italian supercar</p></article></div>
     </div>
   </section>
 
@@ -160,8 +163,8 @@
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/controls/OrbitControls.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="OrbitControls.js"></script>
+  <script src="GLTFLoader.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="script.js"></script>

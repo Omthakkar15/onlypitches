@@ -20,24 +20,55 @@ const clock = new THREE.Clock();
 
 const roomData = [
   {
-    "title": "Brake Service",
-    "desc": "Pads & rotors",
-    "price": "From $180+",
-    "image": "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=1400&q=85&sig=10"
+    title: "BMW M3",
+    desc: "Classic E30 performance coupe",
+    price: "Service from $180+",
+    car: "bmw",
   },
   {
-    "title": "Engine Diagnostic",
-    "desc": "Computer scan",
-    "price": "From $89",
-    "image": "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=1400&q=85&sig=11"
+    title: "Porsche 911",
+    desc: "Iconic sports coupe",
+    price: "Service from $220+",
+    car: "porsche",
   },
   {
-    "title": "Transmission",
-    "desc": "Rebuild options",
-    "price": "From $800+",
-    "image": "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=1400&q=85&sig=12"
-  }
+    title: "Ferrari F40",
+    desc: "Legendary Italian supercar",
+    price: "Service from $350+",
+    car: "ferrari",
+  },
 ];
+
+const CAR_MODELS = {
+  bmw: { file: "bmw.glb", targetSize: 2.6, rotY: Math.PI * 0.15 },
+  porsche: { file: "porsche.glb", targetSize: 2.55, rotY: Math.PI * 0.15 },
+  ferrari: { file: "ferrari.glb", targetSize: 2.5, rotY: Math.PI * 0.15 },
+};
+
+// Hosted copies on GitHub (jsDelivr) so cars also load from local HTML / Pages
+const CAR_CDN_BASE = "https://cdn.jsdelivr.net/gh/Omthakkar15/onlypitches@main/auto-repair-shop/assets/cars/";
+
+const carModelCache = {};
+const carLoadPromises = {};
+let gltfLoader;
+let carLoadToken = 0;
+
+function getCarModelUrls(fileName) {
+  const cdnUrl = CAR_CDN_BASE + fileName;
+  if (window.location.protocol === "file:") {
+    return [cdnUrl];
+  }
+  const localUrl = new URL("../assets/cars/" + fileName, window.location.href).href;
+  return [localUrl, cdnUrl];
+}
+
+function setCarStatus(message, isError) {
+  const el = document.getElementById("car-status");
+  if (!el) return;
+  el.hidden = !message;
+  el.textContent = message || "";
+  el.classList.toggle("is-error", !!isError);
+}
 
 const EARTH_TEXTURE = "https://threejs.org/examples/textures/planets/Earth_atmos_2048.jpg";
 const EARTH_CLOUDS = "https://threejs.org/examples/textures/planets/Earth_clouds_1024.png";
@@ -177,84 +208,142 @@ function initAmbientScene() {
   ambientScene.add(ambientPoints);
 }
 
-function buildBedroomDiorama(textureUrl) {
-  const group = new THREE.Group();
-
-  const frame = new THREE.Mesh(new THREE.BoxGeometry(3.6, 2.4, 0.08), goldMaterial());
-  frame.position.z = -0.04;
-  group.add(frame);
-
-  const wallGeo = new THREE.PlaneGeometry(3.2, 2.1);
-  const wallMat = new THREE.MeshStandardMaterial({ color: 0x2a2218, roughness: 0.9 });
-  const wall = new THREE.Mesh(wallGeo, wallMat);
-  wall.position.z = 0.02;
-  group.add(wall);
-
-  textureLoader.load(textureUrl, (tex) => {
-    tex.encoding = THREE.sRGBEncoding;
-    wall.material.map = tex;
-    wall.material.roughness = 0.65;
-    wall.material.needsUpdate = true;
+function paintMat(color, extras = {}) {
+  return new THREE.MeshStandardMaterial({
+    color,
+    roughness: extras.roughness ?? 0.35,
+    metalness: extras.metalness ?? 0.55,
+    ...extras,
   });
+}
 
+function buildShowroomFloor(group) {
   const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(3.2, 1.8),
-    new THREE.MeshStandardMaterial({ color: 0x1a1510, roughness: 0.75, metalness: 0.15 })
+    new THREE.CircleGeometry(2.4, 64),
+    paintMat(0x1c1c1e, { roughness: 0.22, metalness: 0.75 })
   );
   floor.rotation.x = -Math.PI / 2;
-  floor.position.set(0, -1.05, 0.55);
+  floor.position.y = -0.82;
   group.add(floor);
-
-  const bedBase = new THREE.Mesh(
-    new THREE.BoxGeometry(1.55, 0.28, 2.05),
-    new THREE.MeshStandardMaterial({ color: 0xf0ebe3, roughness: 0.55 })
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(2.2, 0.035, 12, 72),
+    paintMat(0xe74c3c, { roughness: 0.4, metalness: 0.6, emissive: 0xe74c3c, emissiveIntensity: 0.18 })
   );
-  bedBase.position.set(0, -0.82, 0.35);
-  group.add(bedBase);
+  ring.rotation.x = Math.PI / 2;
+  ring.position.y = -0.8;
+  group.add(ring);
+}
 
-  const mattress = new THREE.Mesh(
-    new THREE.BoxGeometry(1.45, 0.18, 1.9),
-    new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.85 })
-  );
-  mattress.position.set(0, -0.66, 0.35);
-  group.add(mattress);
+function prepareCarScene(root) {
+  root.traverse((child) => {
+    if (!child.isMesh) return;
+    child.castShadow = true;
+    child.receiveShadow = true;
+    const mats = Array.isArray(child.material) ? child.material : [child.material];
+    mats.forEach((mat) => {
+      if (!mat) return;
+      if (mat.map) mat.map.encoding = THREE.sRGBEncoding;
+      if (mat.emissiveMap) mat.emissiveMap.encoding = THREE.sRGBEncoding;
+      mat.needsUpdate = true;
+    });
+  });
+}
 
-  const headboard = new THREE.Mesh(
-    new THREE.BoxGeometry(1.6, 0.95, 0.12),
-    new THREE.MeshStandardMaterial({ color: 0x3d3428, roughness: 0.6, metalness: 0.2 })
-  );
-  headboard.position.set(0, -0.42, -0.72);
-  group.add(headboard);
+function fitCarToShowroom(model, targetSize = 2.5, rotY = 0) {
+  const wrapper = new THREE.Group();
+  wrapper.add(model);
+  model.rotation.y = rotY;
 
-  const pillowL = new THREE.Mesh(
-    new THREE.BoxGeometry(0.55, 0.12, 0.38),
-    new THREE.MeshStandardMaterial({ color: 0xfaf8f5, roughness: 0.9 })
-  );
-  pillowL.position.set(-0.35, -0.52, -0.35);
-  pillowL.rotation.x = -0.15;
-  group.add(pillowL);
+  const box = new THREE.Box3().setFromObject(wrapper);
+  const size = box.getSize(new THREE.Vector3());
+  const maxDim = Math.max(size.x, size.y, size.z) || 1;
+  wrapper.scale.setScalar(targetSize / maxDim);
 
-  const pillowR = pillowL.clone();
-  pillowR.position.x = 0.35;
-  group.add(pillowR);
+  const fitted = new THREE.Box3().setFromObject(wrapper);
+  const center = fitted.getCenter(new THREE.Vector3());
+  wrapper.position.x -= center.x;
+  wrapper.position.z -= center.z;
+  wrapper.position.y -= fitted.min.y;
+  wrapper.position.y += -0.82;
+  return wrapper;
+}
 
-  const nightstand = new THREE.Mesh(
-    new THREE.BoxGeometry(0.38, 0.42, 0.38),
-    new THREE.MeshStandardMaterial({ color: 0x2a2218, roughness: 0.5 })
-  );
-  nightstand.position.set(1.15, -0.84, -0.2);
-  group.add(nightstand);
+function loadGltfFromUrl(url) {
+  return new Promise((resolve, reject) => {
+    gltfLoader.load(url, resolve, undefined, () => reject(new Error("Could not load " + url)));
+  });
+}
 
-  const lampGlow = new THREE.Mesh(
-    new THREE.SphereGeometry(0.1, 16, 16),
-    new THREE.MeshStandardMaterial({ color: 0xffe4b5, emissive: 0xffc870, emissiveIntensity: 1.2 })
-  );
-  lampGlow.position.set(1.15, -0.55, -0.2);
-  group.add(lampGlow);
+function loadCarModel(carType) {
+  if (typeof THREE.GLTFLoader !== "function") {
+    return Promise.reject(new Error("GLTFLoader failed to load. Hard-refresh the page (Ctrl+Shift+R)."));
+  }
+  if (!gltfLoader) gltfLoader = new THREE.GLTFLoader();
+  const cfg = CAR_MODELS[carType] || CAR_MODELS.bmw;
+  const urls = getCarModelUrls(cfg.file);
 
-  const lampPoint = new THREE.PointLight(0xffd699, 0.6, 4);
-  lampPoint.position.copy(lampGlow.position);
-  group.add(lampPoint);
+  if (carModelCache[carType]) {
+    return Promise.resolve(carModelCache[carType].clone(true));
+  }
+  if (carLoadPromises[carType]) return carLoadPromises[carType].then((scene) => scene.clone(true));
+
+  carLoadPromises[carType] = (async () => {
+    let lastErr;
+    for (const url of urls) {
+      try {
+        const gltf = await loadGltfFromUrl(url);
+        prepareCarScene(gltf.scene);
+        carModelCache[carType] = gltf.scene;
+        return gltf.scene;
+      } catch (err) {
+        lastErr = err;
+      }
+    }
+    throw lastErr || new Error("Failed to load car model: " + carType);
+  })();
+
+  return carLoadPromises[carType]
+    .then((scene) => scene.clone(true))
+    .catch((err) => {
+      delete carLoadPromises[carType];
+      throw err;
+    });
+}
+
+function buildCarShowcase(carType) {
+  const group = new THREE.Group();
+  buildShowroomFloor(group);
+
+  const keyLight = new THREE.DirectionalLight(0xffffff, 1.15);
+  keyLight.position.set(2.5, 3.2, 2.8);
+  group.add(keyLight);
+  const fill = new THREE.DirectionalLight(0xffe8dc, 0.45);
+  fill.position.set(-2.5, 1.5, 1.5);
+  group.add(fill);
+  const rim = new THREE.DirectionalLight(0xe74c3c, 0.35);
+  rim.position.set(-1.5, 2, -3);
+  group.add(rim);
+  const spot = new THREE.SpotLight(0xffffff, 0.7, 12, 0.5, 0.4);
+  spot.position.set(0, 3.2, 1.5);
+  spot.target.position.set(0, -0.5, 0);
+  group.add(spot);
+  group.add(spot.target);
+
+  const cfg = CAR_MODELS[carType] || CAR_MODELS.bmw;
+  const token = ++carLoadToken;
+  setCarStatus("Loading " + (roomData.find((r) => r.car === carType)?.title || "car") + "…");
+
+  loadCarModel(carType)
+    .then((model) => {
+      if (token !== carLoadToken || !group.parent) return;
+      const fitted = fitCarToShowroom(model, cfg.targetSize, cfg.rotY);
+      group.add(fitted);
+      setCarStatus("");
+    })
+    .catch((err) => {
+      console.error("Failed to load car model:", carType, err);
+      setCarStatus("Car model failed to load. Open the live GitHub site or refresh.", true);
+    });
 
   return group;
 }
@@ -263,7 +352,7 @@ function switchRoom(index) {
   if (!roomGroup || !roomScene) return;
   const rot = roomGroup.rotation.y;
   roomScene.remove(roomGroup);
-  roomGroup = buildBedroomDiorama(roomData[index].image);
+  roomGroup = buildCarShowcase(roomData[index].car);
   roomGroup.rotation.y = rot;
   roomScene.add(roomGroup);
 }
@@ -353,14 +442,14 @@ function initRoomViewer() {
   const canvas = document.getElementById("room-canvas");
   roomScene = new THREE.Scene();
   roomCamera = new THREE.PerspectiveCamera(42, canvas.clientWidth / canvas.clientHeight, 0.1, 50);
-  roomCamera.position.set(0, 0.15, 4.2);
-  roomCamera.lookAt(0, -0.2, 0);
+  roomCamera.position.set(0, 0.85, 4.4);
+  roomCamera.lookAt(0, -0.15, 0);
   roomRenderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   roomRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   roomRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
   roomRenderer.outputEncoding = THREE.sRGBEncoding;
   roomRenderer.toneMapping = THREE.ACESFilmicToneMapping;
-  roomRenderer.toneMappingExposure = 1.1;
+  roomRenderer.toneMappingExposure = 1.25;
 
   roomScene.add(new THREE.AmbientLight(0xfff5e8, 0.45));
   const light = new THREE.DirectionalLight(0xffffff, 0.85);
@@ -370,7 +459,7 @@ function initRoomViewer() {
   rim.position.set(-3, 1, -2);
   roomScene.add(rim);
 
-  roomGroup = buildBedroomDiorama(roomData[0].image);
+  roomGroup = buildCarShowcase(roomData[0].car);
   roomScene.add(roomGroup);
 
   let lastX = 0;
@@ -651,6 +740,9 @@ initNavbar();
 initHeroScene();
 initAmbientScene();
 initRoomViewer();
+["bmw", "porsche", "ferrari"].forEach((type) => {
+  loadCarModel(type).catch(() => {});
+});
 initAmenities3D();
 initGlobe();
 initUI();

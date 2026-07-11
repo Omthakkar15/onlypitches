@@ -1,0 +1,6 @@
+Car models from SceneView assets pack (CC-BY-4.0):
+https://github.com/sceneview/sceneview/releases/tag/assets-v1
+
+- bmw.glb — BMW M3 E30
+- porsche.glb — Porsche 911
+- ferrari.glb — Ferrari F40
