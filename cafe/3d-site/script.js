@@ -20,28 +20,34 @@ const clock = new THREE.Clock();
 
 const roomData = [
   {
-    "title": "Single Origin Pour",
-    "desc": "Ethiopian Yirgacheffe",
-    "price": "From $5",
-    "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1400&q=85&sig=10"
+    title: "Single Origin Pour",
+    desc: "Ethiopian Yirgacheffe",
+    price: "From $5",
+    food: "coffee",
+    image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1400&q=85&sig=10",
   },
   {
-    "title": "Avocado Toast",
-    "desc": "Sourdough, chili flakes",
-    "price": "From $12",
-    "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1400&q=85&sig=11"
+    title: "Avocado Toast",
+    desc: "Sourdough, chili flakes",
+    price: "From $12",
+    food: "sandwich",
+    image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=1400&q=85",
   },
   {
-    "title": "Almond Croissant",
-    "desc": "Buttery, twice-baked",
-    "price": "From $4",
-    "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1400&q=85&sig=12"
-  }
+    title: "Almond Croissant",
+    desc: "Buttery, twice-baked",
+    price: "From $4",
+    food: "croissant",
+    image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=1400&q=85",
+  },
 ];
 
-const EARTH_TEXTURE = "https://threejs.org/examples/textures/planets/Earth_atmos_2048.jpg";
-const EARTH_CLOUDS = "https://threejs.org/examples/textures/planets/Earth_clouds_1024.png";
-const EARTH_BUMP = "https://threejs.org/examples/textures/planets/Earth_normal_2048.jpg";
+const EARTH_TEXTURE = "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_atmos_2048.jpg";
+const EARTH_CLOUDS = "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_clouds_1024.png";
+const EARTH_BUMP = "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_normal_2048.jpg";
+const EARTH_TEXTURE_FALLBACK = "../assets/earth-atmos.jpg";
+const EARTH_CLOUDS_FALLBACK = "../assets/earth-clouds.png";
+const EARTH_BUMP_FALLBACK = "../assets/earth-normal.jpg";
 
 function initLoadingManager() {
   textureLoader = new THREE.TextureLoader();
@@ -177,85 +183,144 @@ function initAmbientScene() {
   ambientScene.add(ambientPoints);
 }
 
-function buildBedroomDiorama(textureUrl) {
-  const group = new THREE.Group();
+function paintMat(color, extras = {}) {
+  return new THREE.MeshStandardMaterial({
+    color,
+    roughness: extras.roughness ?? 0.45,
+    metalness: extras.metalness ?? 0.08,
+    ...extras,
+  });
+}
 
+function buildCafeBackdrop(group, textureUrl) {
   const frame = new THREE.Mesh(new THREE.BoxGeometry(3.6, 2.4, 0.08), goldMaterial());
   frame.position.z = -0.04;
   group.add(frame);
 
-  const wallGeo = new THREE.PlaneGeometry(3.2, 2.1);
-  const wallMat = new THREE.MeshStandardMaterial({ color: 0x2a2218, roughness: 0.9 });
-  const wall = new THREE.Mesh(wallGeo, wallMat);
+  const wall = new THREE.Mesh(
+    new THREE.PlaneGeometry(3.2, 2.1),
+    new THREE.MeshStandardMaterial({ color: 0x2a2218, roughness: 0.9 })
+  );
   wall.position.z = 0.02;
   group.add(wall);
-
-  textureLoader.load(textureUrl, (tex) => {
-    tex.encoding = THREE.sRGBEncoding;
-    wall.material.map = tex;
-    wall.material.roughness = 0.65;
-    wall.material.needsUpdate = true;
-  });
+  if (textureUrl) {
+    textureLoader.load(textureUrl, (tex) => {
+      tex.encoding = THREE.sRGBEncoding;
+      wall.material.map = tex;
+      wall.material.roughness = 0.65;
+      wall.material.needsUpdate = true;
+    });
+  }
 
   const floor = new THREE.Mesh(
     new THREE.PlaneGeometry(3.2, 1.8),
-    new THREE.MeshStandardMaterial({ color: 0x1a1510, roughness: 0.75, metalness: 0.15 })
+    paintMat(0x3a2a1c, { roughness: 0.7, metalness: 0.12 })
   );
   floor.rotation.x = -Math.PI / 2;
   floor.position.set(0, -1.05, 0.55);
   group.add(floor);
 
-  const bedBase = new THREE.Mesh(
-    new THREE.BoxGeometry(1.55, 0.28, 2.05),
-    new THREE.MeshStandardMaterial({ color: 0xf0ebe3, roughness: 0.55 })
+  const lamp = new THREE.Mesh(
+    new THREE.SphereGeometry(0.12, 16, 16),
+    paintMat(0xffe4b5, { emissive: 0xffc870, emissiveIntensity: 1.1 })
   );
-  bedBase.position.set(0, -0.82, 0.35);
-  group.add(bedBase);
+  lamp.position.set(0, 1.05, 0.2);
+  group.add(lamp);
+  const lampLight = new THREE.PointLight(0xffd699, 0.7, 5);
+  lampLight.position.copy(lamp.position);
+  group.add(lampLight);
+}
 
-  const mattress = new THREE.Mesh(
-    new THREE.BoxGeometry(1.45, 0.18, 1.9),
-    new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.85 })
-  );
-  mattress.position.set(0, -0.66, 0.35);
-  group.add(mattress);
+function buildCoffeeMug() {
+  const mug = new THREE.Group();
+  const ceramic = paintMat(0xf5f0e8, { roughness: 0.35 });
+  const coffee = paintMat(0x3b2214, { roughness: 0.55, metalness: 0.05 });
+  const body = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.38, 0.72, 32), ceramic);
+  body.position.y = -0.35;
+  mug.add(body);
+  const rim = new THREE.Mesh(new THREE.TorusGeometry(0.42, 0.035, 12, 36), ceramic);
+  rim.rotation.x = Math.PI / 2;
+  rim.position.y = 0.01;
+  mug.add(rim);
+  const liquid = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 0.06, 32), coffee);
+  liquid.position.y = -0.05;
+  mug.add(liquid);
+  const handle = new THREE.Mesh(new THREE.TorusGeometry(0.22, 0.045, 12, 28, Math.PI * 1.3), ceramic);
+  handle.position.set(0.52, -0.32, 0);
+  handle.rotation.y = Math.PI / 2;
+  handle.rotation.z = -0.2;
+  mug.add(handle);
+  const saucer = new THREE.Mesh(new THREE.CylinderGeometry(0.62, 0.65, 0.05, 36), ceramic);
+  saucer.position.y = -0.74;
+  mug.add(saucer);
+  return mug;
+}
 
-  const headboard = new THREE.Mesh(
-    new THREE.BoxGeometry(1.6, 0.95, 0.12),
-    new THREE.MeshStandardMaterial({ color: 0x3d3428, roughness: 0.6, metalness: 0.2 })
-  );
-  headboard.position.set(0, -0.42, -0.72);
-  group.add(headboard);
+function buildSandwich() {
+  const food = new THREE.Group();
+  const bread = paintMat(0xe8c890, { roughness: 0.75 });
+  const green = paintMat(0x4f8f46, { roughness: 0.7 });
+  const avocado = paintMat(0x7aab3a, { roughness: 0.55 });
+  const tomato = paintMat(0xc23b3b, { roughness: 0.5 });
+  const bottom = new THREE.Mesh(new THREE.BoxGeometry(1.35, 0.16, 0.85), bread);
+  bottom.position.y = -0.55;
+  food.add(bottom);
+  const greens = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.08, 0.75), green);
+  greens.position.y = -0.42;
+  food.add(greens);
+  const slice = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.1, 0.7), avocado);
+  slice.position.y = -0.32;
+  food.add(slice);
+  const tom = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.28, 0.06, 20), tomato);
+  tom.rotation.z = Math.PI / 2;
+  tom.position.set(-0.2, -0.22, 0.05);
+  food.add(tom);
+  const tom2 = tom.clone();
+  tom2.position.x = 0.28;
+  food.add(tom2);
+  const top = new THREE.Mesh(new THREE.BoxGeometry(1.35, 0.16, 0.85), bread);
+  top.position.y = -0.12;
+  top.rotation.z = 0.04;
+  food.add(top);
+  const plate = new THREE.Mesh(new THREE.CylinderGeometry(0.95, 0.98, 0.05, 36), paintMat(0xf0ebe3));
+  plate.position.y = -0.72;
+  food.add(plate);
+  return food;
+}
 
-  const pillowL = new THREE.Mesh(
-    new THREE.BoxGeometry(0.55, 0.12, 0.38),
-    new THREE.MeshStandardMaterial({ color: 0xfaf8f5, roughness: 0.9 })
-  );
-  pillowL.position.set(-0.35, -0.52, -0.35);
-  pillowL.rotation.x = -0.15;
-  group.add(pillowL);
+function buildCroissant() {
+  const pastry = new THREE.Group();
+  const dough = paintMat(0xd4a05a, { roughness: 0.55, metalness: 0.05 });
+  const glaze = paintMat(0xe8c07a, { roughness: 0.4 });
+  for (let i = 0; i < 5; i++) {
+    const t = i / 4;
+    const seg = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.16 - t * 0.04, 0.2 - t * 0.05, 0.38, 16),
+      i % 2 === 0 ? dough : glaze
+    );
+    const angle = -0.9 + t * 1.8;
+    seg.position.set(Math.sin(angle) * 0.55, -0.45 + Math.cos(angle) * 0.08, Math.cos(angle) * 0.15);
+    seg.rotation.z = angle;
+    seg.rotation.y = 0.35;
+    pastry.add(seg);
+  }
+  const plate = new THREE.Mesh(new THREE.CylinderGeometry(0.85, 0.88, 0.05, 36), paintMat(0xf5f0e8));
+  plate.position.y = -0.72;
+  pastry.add(plate);
+  return pastry;
+}
 
-  const pillowR = pillowL.clone();
-  pillowR.position.x = 0.35;
-  group.add(pillowR);
+function buildCafeShowcase(item) {
+  const group = new THREE.Group();
+  buildCafeBackdrop(group, item.image);
 
-  const nightstand = new THREE.Mesh(
-    new THREE.BoxGeometry(0.38, 0.42, 0.38),
-    new THREE.MeshStandardMaterial({ color: 0x2a2218, roughness: 0.5 })
-  );
-  nightstand.position.set(1.15, -0.84, -0.2);
-  group.add(nightstand);
+  let food;
+  if (item.food === "sandwich") food = buildSandwich();
+  else if (item.food === "croissant") food = buildCroissant();
+  else food = buildCoffeeMug();
 
-  const lampGlow = new THREE.Mesh(
-    new THREE.SphereGeometry(0.1, 16, 16),
-    new THREE.MeshStandardMaterial({ color: 0xffe4b5, emissive: 0xffc870, emissiveIntensity: 1.2 })
-  );
-  lampGlow.position.set(1.15, -0.55, -0.2);
-  group.add(lampGlow);
-
-  const lampPoint = new THREE.PointLight(0xffd699, 0.6, 4);
-  lampPoint.position.copy(lampGlow.position);
-  group.add(lampPoint);
-
+  food.position.set(0, 0.05, 0.35);
+  group.add(food);
   return group;
 }
 
@@ -263,87 +328,62 @@ function switchRoom(index) {
   if (!roomGroup || !roomScene) return;
   const rot = roomGroup.rotation.y;
   roomScene.remove(roomGroup);
-  roomGroup = buildBedroomDiorama(roomData[index].image);
+  roomGroup = buildCafeShowcase(roomData[index]);
   roomGroup.rotation.y = rot;
   roomScene.add(roomGroup);
 }
 
 function buildAmenityIcon(type) {
   const group = new THREE.Group();
+  const cream = paintMat(0xf5f0e8);
+  const coffee = paintMat(0x4a2c1a);
+  const bread = paintMat(0xd4a05a);
+  const green = paintMat(0x5a9a4a);
   const gold = goldMaterial();
-  const goldGlow = goldMaterial(0xd4a574, 0.25);
 
-  if (type === "pool") {
-    const water = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.85, 0.9, 0.12, 48),
-      new THREE.MeshStandardMaterial({ color: 0x3a8fb5, metalness: 0.6, roughness: 0.15, emissive: 0x1a4a6a, emissiveIntensity: 0.3 })
-    );
-    group.add(water);
-    const rim = new THREE.Mesh(new THREE.TorusGeometry(0.88, 0.06, 12, 48), gold);
-    rim.rotation.x = Math.PI / 2;
-    rim.position.y = 0.06;
-    group.add(rim);
-    const deck = new THREE.Mesh(
-      new THREE.BoxGeometry(2, 0.06, 2),
-      new THREE.MeshStandardMaterial({ color: 0x2a2218, roughness: 0.8 })
-    );
-    deck.position.y = -0.08;
-    group.add(deck);
-  } else if (type === "spa") {
-    const bowl = new THREE.Mesh(new THREE.SphereGeometry(0.7, 32, 32, 0, Math.PI * 2, 0, Math.PI / 2), gold);
-    bowl.rotation.x = Math.PI;
-    group.add(bowl);
-    const steam = new THREE.Mesh(
-      new THREE.SphereGeometry(0.18, 16, 16),
-      new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.35, emissive: 0xffffff, emissiveIntensity: 0.4 })
-    );
-    steam.position.set(-0.25, 0.55, 0);
-    group.add(steam);
-    const steam2 = steam.clone();
-    steam2.position.set(0.2, 0.7, 0.1);
-    steam2.scale.setScalar(0.8);
-    group.add(steam2);
-    const stone = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.95, 1, 0.15, 32),
-      new THREE.MeshStandardMaterial({ color: 0x3a3530, roughness: 0.9 })
-    );
-    stone.position.y = -0.1;
-    group.add(stone);
-  } else if (type === "gym") {
-    const bar = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 1.6, 16), goldGlow);
-    bar.rotation.z = Math.PI / 2;
-    group.add(bar);
-    const weightL = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.28, 0.22, 24), gold);
-    weightL.rotation.z = Math.PI / 2;
-    weightL.position.x = -0.72;
-    group.add(weightL);
-    const weightR = weightL.clone();
-    weightR.position.x = 0.72;
-    group.add(weightR);
-    const grip = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.08, 0.08), new THREE.MeshStandardMaterial({ color: 0x1a1510, roughness: 0.7 }));
-    grip.position.y = 0.14;
-    group.add(grip);
-  } else if (type === "wine") {
-    const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.05, 0.7, 12), gold);
-    stem.position.y = -0.15;
-    group.add(stem);
-    const base = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.38, 0.05, 24), gold);
-    base.position.y = -0.5;
-    group.add(base);
-    const bowl = new THREE.Mesh(
-      new THREE.SphereGeometry(0.42, 24, 24, 0, Math.PI * 2, 0, Math.PI / 2.2),
-      new THREE.MeshStandardMaterial({ color: 0x8b1a2e, metalness: 0.5, roughness: 0.3, emissive: 0x4a0a15, emissiveIntensity: 0.2 })
-    );
-    bowl.rotation.x = Math.PI;
-    bowl.position.y = 0.15;
-    group.add(bowl);
-    const liquid = new THREE.Mesh(
-      new THREE.CircleGeometry(0.3, 24),
-      new THREE.MeshStandardMaterial({ color: 0x6b1020, metalness: 0.7, roughness: 0.2 })
-    );
-    liquid.rotation.x = -Math.PI / 2;
-    liquid.position.y = 0.14;
+  if (type === "coffee") {
+    const mug = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.34, 0.55, 28), cream);
+    group.add(mug);
+    const liquid = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.08, 24), coffee);
+    liquid.position.y = 0.18;
     group.add(liquid);
+    const handle = new THREE.Mesh(new THREE.TorusGeometry(0.18, 0.04, 10, 20, Math.PI * 1.25), cream);
+    handle.position.set(0.42, 0, 0);
+    handle.rotation.y = Math.PI / 2;
+    group.add(handle);
+  } else if (type === "sandwich") {
+    const bottom = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.14, 0.7), bread);
+    bottom.position.y = -0.2;
+    group.add(bottom);
+    const filling = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.16, 0.6), green);
+    group.add(filling);
+    const top = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.14, 0.7), bread);
+    top.position.y = 0.2;
+    group.add(top);
+  } else if (type === "pastry") {
+    for (let i = 0; i < 4; i++) {
+      const t = i / 3;
+      const seg = new THREE.Mesh(new THREE.CylinderGeometry(0.14 - t * 0.03, 0.18 - t * 0.03, 0.32, 14), bread);
+      const angle = -0.75 + t * 1.5;
+      seg.position.set(Math.sin(angle) * 0.4, Math.cos(angle) * 0.05, 0);
+      seg.rotation.z = angle;
+      group.add(seg);
+    }
+  } else if (type === "latte") {
+    const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.36, 0.5, 28), cream);
+    group.add(cup);
+    const foam = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.08, 24), paintMat(0xfff8ee));
+    foam.position.y = 0.2;
+    group.add(foam);
+    const art = new THREE.Mesh(new THREE.SphereGeometry(0.08, 12, 12), coffee);
+    art.position.y = 0.26;
+    group.add(art);
+    const saucer = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.58, 0.05, 28), gold);
+    saucer.position.y = -0.3;
+    group.add(saucer);
+  } else {
+    const fallback = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.7, 0.7), cream);
+    group.add(fallback);
   }
 
   return group;
@@ -353,8 +393,8 @@ function initRoomViewer() {
   const canvas = document.getElementById("room-canvas");
   roomScene = new THREE.Scene();
   roomCamera = new THREE.PerspectiveCamera(42, canvas.clientWidth / canvas.clientHeight, 0.1, 50);
-  roomCamera.position.set(0, 0.15, 4.2);
-  roomCamera.lookAt(0, -0.2, 0);
+  roomCamera.position.set(0, 0.35, 3.8);
+  roomCamera.lookAt(0, -0.35, 0.2);
   roomRenderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   roomRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   roomRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
@@ -370,7 +410,7 @@ function initRoomViewer() {
   rim.position.set(-3, 1, -2);
   roomScene.add(rim);
 
-  roomGroup = buildBedroomDiorama(roomData[0].image);
+  roomGroup = buildCafeShowcase(roomData[0]);
   roomScene.add(roomGroup);
 
   let lastX = 0;
@@ -459,42 +499,79 @@ function initGlobe() {
   globeRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
   globeRenderer.outputEncoding = THREE.sRGBEncoding;
 
-  globeScene.add(new THREE.AmbientLight(0x4466aa, 0.35));
-  const dl = new THREE.DirectionalLight(0xffffff, 1.1);
+  globeScene.add(new THREE.AmbientLight(0x4f638d, 0.45));
+  const dl = new THREE.DirectionalLight(0xffffff, 1.15);
   dl.position.set(5, 2, 4);
   globeScene.add(dl);
+  const rim = new THREE.DirectionalLight(0x89a9ff, 0.45);
+  rim.position.set(-4, 1, -3);
+  globeScene.add(rim);
 
-  const earthMat = new THREE.MeshStandardMaterial({ color: 0x2244aa, roughness: 0.85, metalness: 0.05 });
+  const earthMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.82, metalness: 0.02 });
   globeEarth = new THREE.Mesh(new THREE.SphereGeometry(1.1, 64, 64), earthMat);
   globeScene.add(globeEarth);
 
-  textureLoader.load(EARTH_TEXTURE, (tex) => {
-    tex.encoding = THREE.sRGBEncoding;
-    globeEarth.material.map = tex;
-    globeEarth.material.needsUpdate = true;
-  });
-  textureLoader.load(EARTH_BUMP, (bump) => {
-    globeEarth.material.bumpMap = bump;
-    globeEarth.material.bumpScale = 0.04;
-    globeEarth.material.needsUpdate = true;
-  });
+  textureLoader.load(
+    EARTH_TEXTURE,
+    (tex) => {
+      tex.encoding = THREE.sRGBEncoding;
+      globeEarth.material.map = tex;
+      globeEarth.material.needsUpdate = true;
+    },
+    undefined,
+    () => {
+      textureLoader.load(EARTH_TEXTURE_FALLBACK, (tex) => {
+        tex.encoding = THREE.sRGBEncoding;
+        globeEarth.material.map = tex;
+        globeEarth.material.needsUpdate = true;
+      });
+    }
+  );
+  textureLoader.load(
+    EARTH_BUMP,
+    (bump) => {
+      globeEarth.material.bumpMap = bump;
+      globeEarth.material.bumpScale = 0.045;
+      globeEarth.material.needsUpdate = true;
+    },
+    undefined,
+    () => {
+      textureLoader.load(EARTH_BUMP_FALLBACK, (bump) => {
+        globeEarth.material.bumpMap = bump;
+        globeEarth.material.bumpScale = 0.045;
+        globeEarth.material.needsUpdate = true;
+      });
+    }
+  );
 
   const cloudMat = new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.28, depthWrite: false });
   globeClouds = new THREE.Mesh(new THREE.SphereGeometry(1.14, 48, 48), cloudMat);
   globeScene.add(globeClouds);
-  textureLoader.load(EARTH_CLOUDS, (cloudTex) => {
-    cloudTex.encoding = THREE.sRGBEncoding;
-    globeClouds.material.map = cloudTex;
-    globeClouds.material.alphaMap = cloudTex;
-    globeClouds.material.needsUpdate = true;
-  });
+  textureLoader.load(
+    EARTH_CLOUDS,
+    (cloudTex) => {
+      cloudTex.encoding = THREE.sRGBEncoding;
+      globeClouds.material.map = cloudTex;
+      globeClouds.material.alphaMap = cloudTex;
+      globeClouds.material.needsUpdate = true;
+    },
+    undefined,
+    () => {
+      textureLoader.load(EARTH_CLOUDS_FALLBACK, (cloudTex) => {
+        cloudTex.encoding = THREE.sRGBEncoding;
+        globeClouds.material.map = cloudTex;
+        globeClouds.material.alphaMap = cloudTex;
+        globeClouds.material.needsUpdate = true;
+      });
+    }
+  );
 
   globeScene.add(new THREE.Mesh(
     new THREE.SphereGeometry(1.22, 48, 48),
     new THREE.MeshBasicMaterial({ color: 0x4488ff, transparent: true, opacity: 0.08, side: THREE.BackSide })
   ));
 
-  const londonPos = latLonToVector3(51.5074, -0.1278, 1.12);
+  const londonPos = latLonToVector3(51.5024, -0.1527, 1.12);
   beacon = new THREE.Mesh(
     new THREE.SphereGeometry(0.045, 16, 16),
     new THREE.MeshStandardMaterial({ color: 0xffd700, emissive: 0xffaa00, emissiveIntensity: 2 })

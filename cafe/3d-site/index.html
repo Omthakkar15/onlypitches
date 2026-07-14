@@ -25,7 +25,7 @@
       <nav class="nav-links" id="nav-links">
         <a href="#home">Home</a>
         <a href="#rooms">Menu</a>
-        <a href="#amenities">Amenities</a>
+        <a href="#amenities">Favorites</a>
         <a href="#dining">Experience</a>
         <a href="#gallery">Gallery</a>
         <a href="#contact">Contact</a>
@@ -84,8 +84,13 @@
 
   <section class="section amenities reveal" id="amenities">
     <div class="container">
-      <h2 class="center">3D Amenities</h2>
-      <div class="amenities-grid"><div class="amenity"><canvas class="amenity-canvas" data-icon="pool"></canvas><span>Infinity Pool</span></div><div class="amenity"><canvas class="amenity-canvas" data-icon="spa"></canvas><span>Wellness Spa</span></div><div class="amenity"><canvas class="amenity-canvas" data-icon="gym"></canvas><span>Fitness Club</span></div><div class="amenity"><canvas class="amenity-canvas" data-icon="wine"></canvas><span>Fine Dining</span></div></div>
+      <h2 class="center">3D Cafe Favorites</h2>
+      <div class="amenities-grid">
+        <div class="amenity"><canvas class="amenity-canvas" data-icon="coffee"></canvas><span>Fresh Brew</span></div>
+        <div class="amenity"><canvas class="amenity-canvas" data-icon="sandwich"></canvas><span>Sandwiches</span></div>
+        <div class="amenity"><canvas class="amenity-canvas" data-icon="pastry"></canvas><span>Pastries</span></div>
+        <div class="amenity"><canvas class="amenity-canvas" data-icon="latte"></canvas><span>Specialty Lattes</span></div>
+      </div>
     </div>
   </section>
 
@@ -127,11 +132,15 @@
     <div class="container split">
       <div>
         <h2>Interactive Location Globe</h2>
+        <p class="muted globe-meta">123 Business Avenue, London, United Kingdom · Daily: 6:00 AM to 8:00 PM</p>
         <canvas id="globe-canvas" class="globe-canvas"></canvas>
-        <button id="toggle-map" class="btn-gold" type="button">Show Map</button>
+        <div class="globe-actions">
+          <a href="https://www.google.com/maps/search/?api=1&query=51.5024,-0.1527" target="_blank" rel="noopener noreferrer" class="btn-gold">Open in Google Maps</a>
+          <button id="toggle-map" class="btn-gold" type="button">Show Map</button>
+        </div>
       </div>
       <div id="map-wrapper" class="map-wrapper hidden">
-        <iframe title="Map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2483.0!2d-0.1527!3d51.5024!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTHCsDMwJzA4LjYiTiAwwrAwOScwOS43Ilc!5e0!3m2!1sen!2suk!4v1" loading="lazy"></iframe>
+        <iframe title="Map" src="https://www.google.com/maps?q=51.5024,-0.1527&z=16&output=embed" loading="lazy"></iframe>
       </div>
     </div>
   </section>
