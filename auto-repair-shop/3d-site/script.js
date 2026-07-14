@@ -70,9 +70,15 @@ function setCarStatus(message, isError) {
   el.classList.toggle("is-error", !!isError);
 }
 
-const EARTH_TEXTURE = "https://threejs.org/examples/textures/planets/Earth_atmos_2048.jpg";
-const EARTH_CLOUDS = "https://threejs.org/examples/textures/planets/Earth_clouds_1024.png";
-const EARTH_BUMP = "https://threejs.org/examples/textures/planets/Earth_normal_2048.jpg";
+
+
+
+const EARTH_TEXTURE = "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_atmos_2048.jpg";
+const EARTH_CLOUDS = "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_clouds_1024.png";
+const EARTH_BUMP = "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_normal_2048.jpg";
+const EARTH_TEXTURE_FALLBACK = "../assets/earth-atmos.jpg";
+const EARTH_CLOUDS_FALLBACK = "../assets/earth-clouds.png";
+const EARTH_BUMP_FALLBACK = "../assets/earth-normal.jpg";
 
 function initLoadingManager() {
   textureLoader = new THREE.TextureLoader();
@@ -540,6 +546,7 @@ function initAmenities3D() {
 
 function initGlobe() {
   const canvas = document.getElementById("globe-canvas");
+  if (!canvas) return;
   globeScene = new THREE.Scene();
   globeCamera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
   globeCamera.position.z = 3.2;
@@ -548,66 +555,110 @@ function initGlobe() {
   globeRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
   globeRenderer.outputEncoding = THREE.sRGBEncoding;
 
-  globeScene.add(new THREE.AmbientLight(0x4466aa, 0.35));
-  const dl = new THREE.DirectionalLight(0xffffff, 1.1);
+  globeScene.add(new THREE.AmbientLight(0x4f638d, 0.45));
+  const dl = new THREE.DirectionalLight(0xffffff, 1.15);
   dl.position.set(5, 2, 4);
   globeScene.add(dl);
+  const rimLight = new THREE.DirectionalLight(0x89a9ff, 0.45);
+  rimLight.position.set(-4, 1, -3);
+  globeScene.add(rimLight);
 
-  const earthMat = new THREE.MeshStandardMaterial({ color: 0x2244aa, roughness: 0.85, metalness: 0.05 });
+  const earthMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.82, metalness: 0.02 });
   globeEarth = new THREE.Mesh(new THREE.SphereGeometry(1.1, 64, 64), earthMat);
   globeScene.add(globeEarth);
 
-  textureLoader.load(EARTH_TEXTURE, (tex) => {
-    tex.encoding = THREE.sRGBEncoding;
-    globeEarth.material.map = tex;
-    globeEarth.material.needsUpdate = true;
-  });
-  textureLoader.load(EARTH_BUMP, (bump) => {
-    globeEarth.material.bumpMap = bump;
-    globeEarth.material.bumpScale = 0.04;
-    globeEarth.material.needsUpdate = true;
-  });
+  textureLoader.load(
+    EARTH_TEXTURE,
+    (tex) => {
+      tex.encoding = THREE.sRGBEncoding;
+      globeEarth.material.map = tex;
+      globeEarth.material.needsUpdate = true;
+    },
+    undefined,
+    () => {
+      textureLoader.load(EARTH_TEXTURE_FALLBACK, (tex) => {
+        tex.encoding = THREE.sRGBEncoding;
+        globeEarth.material.map = tex;
+        globeEarth.material.needsUpdate = true;
+      });
+    }
+  );
+  textureLoader.load(
+    EARTH_BUMP,
+    (bump) => {
+      globeEarth.material.bumpMap = bump;
+      globeEarth.material.bumpScale = 0.045;
+      globeEarth.material.needsUpdate = true;
+    },
+    undefined,
+    () => {
+      textureLoader.load(EARTH_BUMP_FALLBACK, (bump) => {
+        globeEarth.material.bumpMap = bump;
+        globeEarth.material.bumpScale = 0.045;
+        globeEarth.material.needsUpdate = true;
+      });
+    }
+  );
 
   const cloudMat = new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.28, depthWrite: false });
   globeClouds = new THREE.Mesh(new THREE.SphereGeometry(1.14, 48, 48), cloudMat);
   globeScene.add(globeClouds);
-  textureLoader.load(EARTH_CLOUDS, (cloudTex) => {
-    cloudTex.encoding = THREE.sRGBEncoding;
-    globeClouds.material.map = cloudTex;
-    globeClouds.material.alphaMap = cloudTex;
-    globeClouds.material.needsUpdate = true;
-  });
+  textureLoader.load(
+    EARTH_CLOUDS,
+    (cloudTex) => {
+      cloudTex.encoding = THREE.sRGBEncoding;
+      globeClouds.material.map = cloudTex;
+      globeClouds.material.alphaMap = cloudTex;
+      globeClouds.material.needsUpdate = true;
+    },
+    undefined,
+    () => {
+      textureLoader.load(EARTH_CLOUDS_FALLBACK, (cloudTex) => {
+        cloudTex.encoding = THREE.sRGBEncoding;
+        globeClouds.material.map = cloudTex;
+        globeClouds.material.alphaMap = cloudTex;
+        globeClouds.material.needsUpdate = true;
+      });
+    }
+  );
 
   globeScene.add(new THREE.Mesh(
     new THREE.SphereGeometry(1.22, 48, 48),
     new THREE.MeshBasicMaterial({ color: 0x4488ff, transparent: true, opacity: 0.08, side: THREE.BackSide })
   ));
 
-  const londonPos = latLonToVector3(51.5074, -0.1278, 1.12);
+  const pinPos = latLonToVector3(51.5024, -0.1527, 1.12);
   beacon = new THREE.Mesh(
     new THREE.SphereGeometry(0.045, 16, 16),
     new THREE.MeshStandardMaterial({ color: 0xffd700, emissive: 0xffaa00, emissiveIntensity: 2 })
   );
-  beacon.position.copy(londonPos);
+  beacon.position.copy(pinPos);
   globeEarth.add(beacon);
 
   beaconGlow = new THREE.Mesh(
     new THREE.SphereGeometry(0.09, 16, 16),
     new THREE.MeshBasicMaterial({ color: 0xffcc44, transparent: true, opacity: 0.35 })
   );
-  beaconGlow.position.copy(londonPos);
+  beaconGlow.position.copy(pinPos);
   globeEarth.add(beaconGlow);
 
   const beaconLight = new THREE.PointLight(0xffcc66, 0.8, 2);
-  beaconLight.position.copy(londonPos);
+  beaconLight.position.copy(pinPos);
   globeEarth.add(beaconLight);
 
-  document.getElementById("toggle-map").addEventListener("click", () => {
-    document.getElementById("map-wrapper").classList.toggle("hidden");
-  });
+  const toggle = document.getElementById("toggle-map");
+  if (toggle) {
+    toggle.addEventListener("click", () => {
+      const map = document.getElementById("map-wrapper");
+      if (map) map.classList.toggle("hidden");
+    });
+  }
 
-  const observer = new IntersectionObserver(([entry]) => { globeRunning = entry.isIntersecting; }, { threshold: 0.1 });
-  observer.observe(document.getElementById("location"));
+  const locationEl = document.getElementById("location");
+  if (locationEl) {
+    const observer = new IntersectionObserver(([entry]) => { globeRunning = entry.isIntersecting; }, { threshold: 0.1 });
+    observer.observe(locationEl);
+  }
 }
 
 function initUI() {

@@ -39,6 +39,9 @@ const roomData = [
   }
 ];
 
+
+
+
 const EARTH_TEXTURE = "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_atmos_2048.jpg";
 const EARTH_CLOUDS = "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_clouds_1024.png";
 const EARTH_BUMP = "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_normal_2048.jpg";
@@ -446,6 +449,7 @@ function initAmenities3D() {
 
 function initGlobe() {
   const canvas = document.getElementById("globe-canvas");
+  if (!canvas) return;
   globeScene = new THREE.Scene();
   globeCamera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
   globeCamera.position.z = 3.2;
@@ -458,9 +462,9 @@ function initGlobe() {
   const dl = new THREE.DirectionalLight(0xffffff, 1.15);
   dl.position.set(5, 2, 4);
   globeScene.add(dl);
-  const rim = new THREE.DirectionalLight(0x89a9ff, 0.45);
-  rim.position.set(-4, 1, -3);
-  globeScene.add(rim);
+  const rimLight = new THREE.DirectionalLight(0x89a9ff, 0.45);
+  rimLight.position.set(-4, 1, -3);
+  globeScene.add(rimLight);
 
   const earthMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.82, metalness: 0.02 });
   globeEarth = new THREE.Mesh(new THREE.SphereGeometry(1.1, 64, 64), earthMat);
@@ -526,31 +530,38 @@ function initGlobe() {
     new THREE.MeshBasicMaterial({ color: 0x4488ff, transparent: true, opacity: 0.08, side: THREE.BackSide })
   ));
 
-  const londonPos = latLonToVector3(51.5024, -0.1527, 1.12);
+  const pinPos = latLonToVector3(51.5024, -0.1527, 1.12);
   beacon = new THREE.Mesh(
     new THREE.SphereGeometry(0.045, 16, 16),
     new THREE.MeshStandardMaterial({ color: 0xffd700, emissive: 0xffaa00, emissiveIntensity: 2 })
   );
-  beacon.position.copy(londonPos);
+  beacon.position.copy(pinPos);
   globeEarth.add(beacon);
 
   beaconGlow = new THREE.Mesh(
     new THREE.SphereGeometry(0.09, 16, 16),
     new THREE.MeshBasicMaterial({ color: 0xffcc44, transparent: true, opacity: 0.35 })
   );
-  beaconGlow.position.copy(londonPos);
+  beaconGlow.position.copy(pinPos);
   globeEarth.add(beaconGlow);
 
   const beaconLight = new THREE.PointLight(0xffcc66, 0.8, 2);
-  beaconLight.position.copy(londonPos);
+  beaconLight.position.copy(pinPos);
   globeEarth.add(beaconLight);
 
-  document.getElementById("toggle-map").addEventListener("click", () => {
-    document.getElementById("map-wrapper").classList.toggle("hidden");
-  });
+  const toggle = document.getElementById("toggle-map");
+  if (toggle) {
+    toggle.addEventListener("click", () => {
+      const map = document.getElementById("map-wrapper");
+      if (map) map.classList.toggle("hidden");
+    });
+  }
 
-  const observer = new IntersectionObserver(([entry]) => { globeRunning = entry.isIntersecting; }, { threshold: 0.1 });
-  observer.observe(document.getElementById("location"));
+  const locationEl = document.getElementById("location");
+  if (locationEl) {
+    const observer = new IntersectionObserver(([entry]) => { globeRunning = entry.isIntersecting; }, { threshold: 0.1 });
+    observer.observe(locationEl);
+  }
 }
 
 function initUI() {

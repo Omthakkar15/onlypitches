@@ -123,15 +123,19 @@
     </div>
   </section>
 
-  <section class="section reveal" id="location">
+    <section class="section reveal" id="location">
     <div class="container split">
       <div>
         <h2>Interactive Location Globe</h2>
+        <p class="muted globe-meta">123 Business Avenue, London, United Kingdom · Mon–Sat: 9:00 AM to 7:00 PM</p>
         <canvas id="globe-canvas" class="globe-canvas"></canvas>
-        <button id="toggle-map" class="btn-gold" type="button">Show Map</button>
+        <div class="globe-actions">
+          <a href="https://www.google.com/maps/search/?api=1&query=51.5024,-0.1527" target="_blank" rel="noopener noreferrer" class="btn-gold">Open in Google Maps</a>
+          <button id="toggle-map" class="btn-gold" type="button">Show Map</button>
+        </div>
       </div>
       <div id="map-wrapper" class="map-wrapper hidden">
-        <iframe title="Map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2483.0!2d-0.1527!3d51.5024!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTHCsDMwJzA4LjYiTiAwwrAwOScwOS43Ilc!5e0!3m2!1sen!2suk!4v1" loading="lazy"></iframe>
+        <iframe title="Map" src="https://www.google.com/maps?q=51.5024,-0.1527&z=16&output=embed" loading="lazy"></iframe>
       </div>
     </div>
   </section>
